@@ -11,7 +11,7 @@
 
 ## Quick Start
 
-    var nodeVersion = new (require('../lib/node-version').version);
+    var nodeVersion = new (require('node-version').version);
     var currentVersion = nodeVersion.getVersion();
 
     /*
