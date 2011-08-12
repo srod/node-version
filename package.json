@@ -1,0 +1,20 @@
+{
+	"name": "node-version",
+	"version": "0.1.0",
+	"description": "Get NodeJS current version",
+	"homepage": "https://github.com/srod/node-version",
+	"author": {
+		"name": "Rodolphe Stoclin",
+		"email": "rodolphe@2clics.net",
+		"url": "http://2clics.net"
+	},
+
+	"main": "index",
+
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/srod/node-version.git"
+	},
+	
+	"keywords": ["version"]
+}
