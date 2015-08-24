@@ -9,7 +9,7 @@
 		"url": "http://2clics.net"
 	},
 
-	"main": "index",
+	"main": "./index.js",
 
 	"repository": {
 		"type": "git",
