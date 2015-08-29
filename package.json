@@ -15,5 +15,8 @@
   },
   "keywords": [
     "version"
-  ]
+  ],
+  "devDependencies": {
+    "semver": "^5.0.1"
+  }
 }
