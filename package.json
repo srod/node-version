@@ -1,6 +1,6 @@
 {
   "name": "node-version",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Get NodeJS current version",
   "homepage": "https://github.com/srod/node-version",
   "author": {
