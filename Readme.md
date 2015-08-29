@@ -1,3 +1,7 @@
+[![Dependency Status](http://img.shields.io/david/srod/node-version.svg?style=flat)](https://david-dm.org/srod/node-version)
+[![devDependency Status](http://img.shields.io/david/dev/srod/node-version.svg?style=flat)](https://david-dm.org/srod/node-version#info=devDependencies)
+[![NPM version](http://img.shields.io/npm/v/node-version.svg?style=flat)](https://www.npmjs.org/package/node-version)
+
 # Node-version
 
 A quick module that returns current node version parsed into parts.
@@ -5,7 +9,7 @@ A quick module that returns current node version parsed into parts.
 ## Installation
 
 ```shell
-  npm install node-version
+npm install node-version
 ```
 
 ## Quick Start
