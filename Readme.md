@@ -30,3 +30,19 @@ console.log(currentVersion);
 }
 */
 ```
+
+## Warning
+
+Version 1.0.0 break 0.1.0 since its API changes.
+
+Change
+
+```js
+var currentVersion = new (require('../lib/node-version').version);
+```
+
+To
+
+```js
+var currentVersion = require('node-version');
+```
