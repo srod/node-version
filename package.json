@@ -8,15 +8,35 @@
     "email": "rodolphe@2clics.net",
     "url": "http://2clics.net"
   },
+  "license": "MIT",
   "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/srod/node-version.git"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "keywords": [
     "version"
   ],
+  "scripts": {
+    "clean": "rm -rf ./coverage",
+    "eslint": "eslint index.js || true",
+    "pretest": "npm run eslint",
+    "test": "jest",
+    "test-cov": "npm run pretest && jest --coverage && npm run posttest",
+    "posttest": "npm run clean"
+  },
+  "dependencies": {},
   "devDependencies": {
-    "semver": "^5.0.1"
+    "coveralls": "2.13.1",
+    "eslint": "3.19.0",
+    "jest": "19.0.2"
+  },
+  "jest": {
+    "notify": true,
+    "verbose": true,
+    "testEnvironment": "node"
   }
 }

@@ -1,0 +1,22 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - "4"
+  - "5"
+  - "6"
+  - "stable"
+
+before_install:
+  - if [[ `node -v` == v7* ]]; then npm i -g npm@4; fi
+  - "npm config set spin false"
+  - "node -v"
+  - "npm -v"
+
+script:
+  - "npm run test-cov"
+
+after_script:
+  - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  - "npm run clean-cov"
