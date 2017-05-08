@@ -26,7 +26,12 @@
     "pretest": "npm run eslint",
     "test": "jest",
     "test-cov": "npm run pretest && jest --coverage && npm run posttest",
-    "posttest": "npm run clean"
+    "posttest": "npm run clean",
+    "release-patch": "npm version patch -m 'Bump %s' && git push --tags origin HEAD:master",
+    "release-minor": "npm version minor -m 'Bump %s' && git push --tags origin HEAD:master",
+    "release-major": "npm version major -m 'Bump %s' && git push --tags origin HEAD:master",
+    "publish-latest": "npm publish",
+    "publish-beta": "npm publish --tag beta"
   },
   "dependencies": {},
   "devDependencies": {
