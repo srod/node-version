@@ -1,6 +1,9 @@
 test:
   override:
-    - npm run test-cov
+  - nvm use 4 && npm run test-cov
+  - nvm use 5 && npm run test-cov
+  - nvm use 6 && npm run test-cov
+  - nvm use 7 && npm run test-cov
   post:
     - npm install -g codeclimate-test-reporter
     - codeclimate-test-reporter < coverage/lcov.info
