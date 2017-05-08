@@ -9,6 +9,10 @@ A quick module that returns current node version parsed into parts.
 ## Installation
 
 ```shell
+yarn add node-version
+```
+Or
+```shell
 npm install node-version
 ```
 
