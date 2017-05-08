@@ -1,2 +1,15 @@
+engines:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - javascript
+ratings:
+  paths:
+    - "**.js"
 exclude_paths:
-- __tests__/**/*
+  - __tests__/**/*
