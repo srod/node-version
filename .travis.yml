@@ -2,6 +2,9 @@ sudo: false
 
 language: node_js
 
+env:
+  CODECLIMATE_REPO_TOKEN: 2abac2aeeaecbafa25618c0a62936530b69dbda54d337685290821966189ce63
+
 addons:
   code_climate:
     repo_token: 2abac2aeeaecbafa25618c0a62936530b69dbda54d337685290821966189ce63
