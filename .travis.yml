@@ -22,6 +22,6 @@ script:
   - npm run test-cov
 
 after_script:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < ./coverage/lcov.info
+  - npm install codeclimate-test-reporter
+  - codeclimate-test-reporter < coverage/lcov.info
   - npm run clean
