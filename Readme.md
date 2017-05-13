@@ -1,6 +1,10 @@
-[![Dependency Status](http://img.shields.io/david/srod/node-version.svg?style=flat)](https://david-dm.org/srod/node-version)
-[![devDependency Status](http://img.shields.io/david/dev/srod/node-version.svg?style=flat)](https://david-dm.org/srod/node-version#info=devDependencies)
-[![NPM version](http://img.shields.io/npm/v/node-version.svg?style=flat)](https://www.npmjs.org/package/node-version)
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Linux Build][travis-image]][travis-url]
+[![Windows Build][appveyor-image]][appveyor-url]
+
+[![Dependency Status][dependency-image]][dependency-url]
+[![devDependency Status][devdependency-image]][devdependency-url]
 
 # Node-version
 
@@ -50,3 +54,15 @@ To
 ```js
 var currentVersion = require('node-version');
 ```
+
+[npm-version-image]: https://img.shields.io/npm/v/node-version.svg
+[npm-downloads-image]: https://img.shields.io/npm/dm/node-version.svg
+[npm-url]: https://npmjs.org/package/node-version
+[travis-image]: https://img.shields.io/travis/srod/node-version/master.svg?label=linux
+[travis-url]: https://travis-ci.org/srod/node-version
+[appveyor-image]: https://img.shields.io/appveyor/ci/srod/node-version/master.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/srod/node-version
+[dependency-image]: https://img.shields.io/david/srod/node-version.svg?style=flat
+[dependency-url]: https://david-dm.org/srod/node-version
+[devdependency-image]: https://img.shields.io/david/dev/srod/node-version.svg?style=flat
+[devdependency-url]: https://david-dm.org/srod/node-version#info=devDependencies
