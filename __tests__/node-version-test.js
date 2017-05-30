@@ -7,17 +7,38 @@
 'use strict';
 
 describe('node-version', function() {
-  beforeEach(function() {
-    this.nodeVersion = require('../index');
+  test('should be ok', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toBeTruthy();
   });
 
-  test('should be ok', function() {
-    expect(this.nodeVersion).toBeTruthy();
-    expect(this.nodeVersion).toHaveProperty('original');
-    expect(this.nodeVersion).toHaveProperty('short');
-    expect(this.nodeVersion).toHaveProperty('long');
-    expect(this.nodeVersion).toHaveProperty('major');
-    expect(this.nodeVersion).toHaveProperty('minor');
-    expect(this.nodeVersion).toHaveProperty('build');
+  test('should have original property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('original');
+  });
+
+  test('should have short property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('short');
+  });
+
+  test('should have long property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('long');
+  });
+
+  test('should have major property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('major');
+  });
+
+  test('should have minor property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('minor');
+  });
+
+  test('should have build property', function() {
+    var nodeVersion = require('../index');
+    expect(nodeVersion).toHaveProperty('build');
   });
 });
