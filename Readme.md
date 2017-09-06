@@ -10,6 +10,8 @@
 
 # Node-version
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/srod/node-version.svg)](https://greenkeeper.io/)
+
 A quick module that returns current node version parsed into parts.
 
 ## Installation
