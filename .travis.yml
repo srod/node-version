@@ -7,16 +7,18 @@ addons:
     repo_token: 2abac2aeeaecbafa25618c0a62936530b69dbda54d337685290821966189ce63
 
 node_js:
-  - 4
-  - 5
+  - 8
   - 6
-  - stable
+  - 4
 
 before_install:
-  - if [[ `node -v` == v7* ]]; then npm i -g npm@4; fi
   - npm config set spin false
+  - npm install -g npm@5
+  - npm install -g greenkeeper-lockfile@1
   - node -v
   - npm -v
+
+before_script: greenkeeper-lockfile-update
 
 script:
   - npm run test-cov
@@ -25,3 +27,4 @@ after_script:
   - npm install codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
   - npm run clean
+  - greenkeeper-lockfile-upload

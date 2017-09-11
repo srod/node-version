@@ -7,6 +7,7 @@
 
 [![Dependency Status][dependency-image]][dependency-url]
 [![devDependency Status][devdependency-image]][devdependency-url]
+[![Greenkeeper badge](https://badges.greenkeeper.io/srod/node-version.svg)](https://greenkeeper.io/)
 
 # Node-version
 
