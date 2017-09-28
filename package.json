@@ -36,7 +36,7 @@
   "dependencies": {},
   "devDependencies": {
     "eslint": "4.7.2",
-    "jest": "21.2.0"
+    "jest": "21.2.1"
   },
   "jest": {
     "notify": true,
