@@ -3,3 +3,12 @@
 ._*
 node_modules
 __tests__
+coverage
+.eslintrc
+.npmignore
+.npmrc
+.travis.yml
+appveyor.yml
+yarn.lock
+.yarnrc
+circle.yml
