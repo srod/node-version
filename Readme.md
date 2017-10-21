@@ -2,8 +2,6 @@
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Linux Build][travis-image]][travis-url]
 [![Windows Build][appveyor-image]][appveyor-url]
-[![Code Climate][codeclimate-image]][codeclimate-url]
-[![Test Coverage][codeclimatecoverage-image]][codeclimatecoverage-url]
 
 [![Dependency Status][dependency-image]][dependency-url]
 [![devDependency Status][devdependency-image]][devdependency-url]
@@ -69,7 +67,3 @@ var currentVersion = require('node-version');
 [dependency-url]: https://david-dm.org/srod/node-version
 [devdependency-image]: https://img.shields.io/david/dev/srod/node-version.svg?style=flat
 [devdependency-url]: https://david-dm.org/srod/node-version#info=devDependencies
-[codeclimate-image]: https://codeclimate.com/github/srod/node-version/badges/gpa.svg
-[codeclimate-url]: https://codeclimate.com/github/srod/node-version
-[codeclimatecoverage-image]: https://codeclimate.com/github/srod/node-version/badges/coverage.svg
-[codeclimatecoverage-url]: https://codeclimate.com/github/srod/node-version/coverage
