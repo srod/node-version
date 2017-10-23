@@ -25,7 +25,6 @@
     "eslint": "eslint index.js || true",
     "pretest": "npm run eslint",
     "test": "jest",
-    "test-cov": "npm run pretest && jest --coverage",
     "posttest": "npm run clean",
     "release-patch": "npm version patch -m 'Bump %s' && git push --tags origin HEAD:master",
     "release-minor": "npm version minor -m 'Bump %s' && git push --tags origin HEAD:master",
