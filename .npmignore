@@ -13,5 +13,7 @@ coverage
 appveyor.yml
 yarn.lock
 .yarnrc
-circle.yml
+.circleci
 .codeclimate.yml
+.editorconfig
+codecov.yml
