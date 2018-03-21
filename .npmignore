@@ -14,3 +14,4 @@ appveyor.yml
 yarn.lock
 .yarnrc
 circle.yml
+.codeclimate.yml
