@@ -41,6 +41,10 @@
     "verbose": true,
     "testEnvironment": "node",
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".history"
+    ]
   }
 }
