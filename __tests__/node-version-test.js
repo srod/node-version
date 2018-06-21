@@ -4,41 +4,64 @@
  * MIT Licensed
  */
 
-'use strict';
+describe('node-version', () => {
+  let nodeVersion;
 
-describe('node-version', function() {
-  test('should be ok', function() {
-    var nodeVersion = require('../index');
+  beforeAll(() => {
+    delete process.versions.node;
+    process.versions.node = '10.0.0';
+    nodeVersion = require('../index');
+  });
+
+  test('should be ok', () => {
     expect(nodeVersion).toBeTruthy();
   });
 
-  test('should have original property', function() {
-    var nodeVersion = require('../index');
+  test('should have original property', () => {
     expect(nodeVersion).toHaveProperty('original');
   });
 
-  test('should have short property', function() {
-    var nodeVersion = require('../index');
+  test('original value should be ok', () => {
+    expect(nodeVersion.original).toBe('v10.0.0');
+  });
+
+  test('should have short property', () => {
     expect(nodeVersion).toHaveProperty('short');
   });
 
-  test('should have long property', function() {
-    var nodeVersion = require('../index');
+  test('short value should be ok', () => {
+    expect(nodeVersion.short).toBe('10.0');
+  });
+
+  test('should have long property', () => {
     expect(nodeVersion).toHaveProperty('long');
   });
 
-  test('should have major property', function() {
-    var nodeVersion = require('../index');
+  test('long value should be ok', () => {
+    expect(nodeVersion.long).toBe('10.0.0');
+  });
+
+  test('should have major property', () => {
     expect(nodeVersion).toHaveProperty('major');
   });
 
-  test('should have minor property', function() {
-    var nodeVersion = require('../index');
+  test('major value should be ok', () => {
+    expect(nodeVersion.major).toBe('10');
+  });
+
+  test('should have minor property', () => {
     expect(nodeVersion).toHaveProperty('minor');
   });
 
-  test('should have build property', function() {
-    var nodeVersion = require('../index');
+  test('minor value should be ok', () => {
+    expect(nodeVersion.minor).toBe('0');
+  });
+
+  test('should have build property', () => {
     expect(nodeVersion).toHaveProperty('build');
+  });
+
+  test('build value should be ok', () => {
+    expect(nodeVersion.build).toBe('0');
   });
 });
