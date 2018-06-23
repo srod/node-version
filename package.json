@@ -34,7 +34,7 @@
   "dependencies": {},
   "devDependencies": {
     "codecov": "3.0.2",
-    "eslint": "4.19.1",
+    "eslint": "5.0.0",
     "jest": "23.1.0"
   },
   "jest": {
