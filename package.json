@@ -33,7 +33,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "codecov": "3.0.3",
+    "codecov": "3.0.4",
     "eslint": "5.0.1",
     "jest": "23.1.0"
   },
