@@ -31,7 +31,6 @@
     "publish-latest": "npm publish",
     "publish-beta": "npm publish --tag beta"
   },
-  "dependencies": {},
   "devDependencies": {
     "codecov": "3.0.4",
     "eslint": "5.3.0",
