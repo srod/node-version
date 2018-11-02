@@ -7,7 +7,6 @@
 
 [![Dependency Status][dependency-image]][dependency-url]
 [![devDependency Status][devdependency-image]][devdependency-url]
-[![Greenkeeper badge](https://badges.greenkeeper.io/srod/node-version.svg)](https://greenkeeper.io/)
 
 # Node-version
 
@@ -18,7 +17,9 @@ A quick module that returns current node version parsed into parts.
 ```shell
 yarn add node-version
 ```
+
 Or
+
 ```shell
 npm install node-version
 ```
@@ -49,7 +50,7 @@ Version 1.0.0 break 0.1.0 since its API changes.
 Change
 
 ```js
-var currentVersion = new (require('node-version').version);
+var currentVersion = new (require('node-version')).version();
 ```
 
 To
