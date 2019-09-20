@@ -17,3 +17,4 @@ yarn.lock
 .codeclimate.yml
 .editorconfig
 codecov.yml
+azure-pipelines.yml
