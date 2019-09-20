@@ -15,7 +15,7 @@
     "url": "https://github.com/srod/node-version.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "keywords": [
     "node",
