@@ -32,8 +32,8 @@
     "publish-beta": "npm publish --tag beta"
   },
   "devDependencies": {
-    "codecov": "3.6.0",
-    "eslint": "5.16.0",
+    "codecov": "3.6.1",
+    "eslint": "6.4.0",
     "jest": "24.9.0"
   },
   "jest": {
