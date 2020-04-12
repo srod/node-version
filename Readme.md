@@ -1,10 +1,7 @@
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
-[![Linux Build][travis-image]][travis-url]
-[![Windows Build][appveyor-image]][appveyor-url]
-[![Circle CI Build][circleci-image]][circleci-url]
+[![GitHub Actions][github-actions-image]][github-actions-url]
 [![Codecov][codecov-image]][codecov-url]
-
 [![Dependency Status][dependency-image]][dependency-url]
 [![devDependency Status][devdependency-image]][devdependency-url]
 
@@ -62,15 +59,11 @@ var currentVersion = require('node-version');
 [npm-version-image]: https://img.shields.io/npm/v/node-version.svg
 [npm-downloads-image]: https://img.shields.io/npm/dm/node-version.svg
 [npm-url]: https://npmjs.org/package/node-version
-[travis-image]: https://img.shields.io/travis/srod/node-version/master.svg?label=linux
-[travis-url]: https://travis-ci.org/srod/node-version
-[appveyor-image]: https://img.shields.io/appveyor/ci/srod/node-version/master.svg?label=windows
-[appveyor-url]: https://ci.appveyor.com/project/srod/node-version
 [dependency-image]: https://img.shields.io/david/srod/node-version.svg?style=flat
 [dependency-url]: https://david-dm.org/srod/node-version
 [devdependency-image]: https://img.shields.io/david/dev/srod/node-version.svg?style=flat
 [devdependency-url]: https://david-dm.org/srod/node-version#info=devDependencies
-[circleci-image]: https://circleci.com/gh/srod/node-version/tree/master.svg?style=shield
-[circleci-url]: https://circleci.com/gh/srod/node-version/tree/master
+[github-actions-image]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fsrod%2Fnode-minify%2Fbadge%3Fref%3Ddevelop&style=flat
+[github-actions-url]: https://github.com/srod/node-minify/actions
 [codecov-image]: https://codecov.io/gh/srod/node-version/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/srod/node-version
