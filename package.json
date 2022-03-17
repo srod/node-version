@@ -35,7 +35,7 @@
     "codecov": "3.8.3",
     "eslint": "8.5.0",
     "jest": "27.4.5",
-    "node-notifier": "10.0.0"
+    "node-notifier": "10.0.1"
   },
   "jest": {
     "notify": true,
