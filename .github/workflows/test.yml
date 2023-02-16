@@ -10,17 +10,42 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node-version: [12.x, 14.x, 16.x, 18.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
-        uses: actions/setup-node@v1
+
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: yarn install and test
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
         run: |
-          yarn install
-          yarn test
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Run tests
+        run: pnpm test
         env:
           CI: true
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
