@@ -55,8 +55,8 @@
     "release-minor": "npm version minor -m 'Bump %s' && git push --tags origin HEAD:master",
     "release-major": "npm version major -m 'Bump %s' && git push --tags origin HEAD:master",
     "pretest": "pnpm run build && pnpm run eslint",
-    "publish-latest": "npm publish",
-    "publish-beta": "npm publish --tag beta",
+    "publish-latest": "NPM_CONFIG_OTP=xxx npm publish",
+    "publish-beta": "NPM_CONFIG_OTP=xxx npm publish --tag beta",
     "test": "vitest"
   },
   "devDependencies": {
