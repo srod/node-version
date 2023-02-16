@@ -4,14 +4,18 @@
  * MIT Licensed
  */
 
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import nodeVersion from '../src';
 
-const TARGET_NODE_MAJOR = '14';
-const TARGET_NODE_MINOR = '21';
-const TARGET_NODE_PATCH = '1';
+const TARGET_NODE_MAJOR = '10';
+const TARGET_NODE_MINOR = '1';
+const TARGET_NODE_PATCH = '0';
 
 describe('node-version', () => {
+  vi.mock('process', () => {
+    return { versions: { node: '10.1.0' } };
+  });
+
   test('should be ok', () => {
     expect(nodeVersion).toBeTruthy();
   });
