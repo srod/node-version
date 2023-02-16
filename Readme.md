@@ -12,19 +12,17 @@ A quick module that returns current node version parsed into parts.
 ## Installation
 
 ```shell
-yarn add node-version
-```
-
-Or
-
-```shell
 npm install node-version
+# Or Yarn
+yarn add node-version
+# Or pnpm
+pnpm add node-version
 ```
 
 ## Quick Start
 
 ```js
-var currentVersion = require('node-version');
+import currentVersion from 'node-version';
 
 /*
 console.log(currentVersion);
@@ -47,7 +45,7 @@ Version 1.0.0 break 0.1.0 since its API changes.
 Change
 
 ```js
-var currentVersion = new (require('node-version')).version();
+var currentVersion = new (require('node-version').version)();
 ```
 
 To
