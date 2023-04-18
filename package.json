@@ -16,7 +16,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "pnpm@8.2.0",
+  "packageManager": "pnpm@8.3.0",
   "directories": {
     "lib": "dist",
     "test": "__tests__"
