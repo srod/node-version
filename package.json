@@ -62,8 +62,8 @@
   "devDependencies": {
     "@tsconfig/node14": "1.0.3",
     "@types/node": "18.16.0",
-    "@typescript-eslint/eslint-plugin": "5.59.0",
-    "@typescript-eslint/parser": "5.59.0",
+    "@typescript-eslint/eslint-plugin": "5.59.1",
+    "@typescript-eslint/parser": "5.59.1",
     "@vitest/coverage-c8": "0.29.8",
     "codecov": "3.8.3",
     "eslint": "8.39.0",
