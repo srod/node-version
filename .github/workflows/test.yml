@@ -13,7 +13,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
         uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
           version: 8
 
