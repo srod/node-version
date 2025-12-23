@@ -13,21 +13,21 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
         uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v2
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 8
+          bun-version: latest
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: 'bun'
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: bun install
 
       - name: Run tests
-        run: pnpm test
+        run: bun run test
         env:
           CI: true
 
