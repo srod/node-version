@@ -74,5 +74,5 @@ var currentVersion = require('node-version');
 [npm-url]: https://npmjs.org/package/node-version
 [github-actions-image]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fsrod%2Fnode-minify%2Fbadge%3Fref%3Ddevelop&style=flat
 [github-actions-url]: https://github.com/srod/node-minify/actions
-[codecov-image]: https://codecov.io/gh/srod/node-version/branch/master/graph/badge.svg
+[codecov-image]: https://codecov.io/gh/srod/node-version/branch/main/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/srod/node-version
