@@ -4,7 +4,6 @@
 ._*
 .history
 node_modules
-__tests__
 coverage
 .eslintrc
 .npmignore

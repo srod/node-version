@@ -6,7 +6,10 @@
 
 import { versions } from 'node:process';
 
-const getVersion = () => {
+/**
+ * Get Node current version.
+ */
+export const getVersion = () => {
   const split = versions.node.split('.');
 
   return {

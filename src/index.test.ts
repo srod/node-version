@@ -5,27 +5,33 @@
  */
 
 import { describe, expect, test, vi } from 'vitest';
-import { version } from './index.js';
+import { getVersion, version } from './index.js';
+
+vi.mock('node:process', () => ({
+  versions: {
+    node: '10.1.0'
+  }
+}));
 
 const TARGET_NODE_MAJOR = '10';
 const TARGET_NODE_MINOR = '1';
 const TARGET_NODE_PATCH = '0';
 
 describe('node-version', () => {
-  vi.mock('process', () => {
-    return { versions: { node: '10.1.0' } };
-  });
-
   test('should be ok', () => {
     expect(version).toBeTruthy();
+    expect(getVersion()).toBeTruthy();
   });
 
   test('should have original property', () => {
     expect(version).toHaveProperty('original');
+    expect(getVersion()).toHaveProperty('original');
   });
 
   test('original value should be ok', () => {
-    expect(version.original).toBe(`v${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`);
+    const expected = `v${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
+    expect(version.original).toBe(expected);
+    expect(getVersion().original).toBe(expected);
   });
 
   test('should have short property', () => {
@@ -33,7 +39,9 @@ describe('node-version', () => {
   });
 
   test('short value should be ok', () => {
-    expect(version.short).toBe(`${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}`);
+    const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}`;
+    expect(version.short).toBe(expected);
+    expect(getVersion().short).toBe(expected);
   });
 
   test('should have long property', () => {
@@ -41,7 +49,9 @@ describe('node-version', () => {
   });
 
   test('long value should be ok', () => {
-    expect(version.long).toBe(`${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`);
+    const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
+    expect(version.long).toBe(expected);
+    expect(getVersion().long).toBe(expected);
   });
 
   test('should have major property', () => {
@@ -50,6 +60,7 @@ describe('node-version', () => {
 
   test('major value should be ok', () => {
     expect(version.major).toBe(TARGET_NODE_MAJOR);
+    expect(getVersion().major).toBe(TARGET_NODE_MAJOR);
   });
 
   test('should have minor property', () => {
@@ -58,6 +69,7 @@ describe('node-version', () => {
 
   test('minor value should be ok', () => {
     expect(version.minor).toBe(TARGET_NODE_MINOR);
+    expect(getVersion().minor).toBe(TARGET_NODE_MINOR);
   });
 
   test('should have build property', () => {
@@ -66,19 +78,22 @@ describe('node-version', () => {
 
   test('build value should be ok', () => {
     expect(version.build).toBe(TARGET_NODE_PATCH);
+    expect(getVersion().build).toBe(TARGET_NODE_PATCH);
   });
 
   test('all properties should be strings', () => {
-    expect(typeof version.original).toBe('string');
-    expect(typeof version.short).toBe('string');
-    expect(typeof version.long).toBe('string');
-    expect(typeof version.major).toBe('string');
-    expect(typeof version.minor).toBe('string');
-    expect(typeof version.build).toBe('string');
+    const v = getVersion();
+    expect(typeof v.original).toBe('string');
+    expect(typeof v.short).toBe('string');
+    expect(typeof v.long).toBe('string');
+    expect(typeof v.major).toBe('string');
+    expect(typeof v.minor).toBe('string');
+    expect(typeof v.build).toBe('string');
   });
 
   test('object should have exactly 6 properties', () => {
     expect(Object.keys(version)).toHaveLength(6);
+    expect(Object.keys(getVersion())).toHaveLength(6);
   });
 
   test('original property should start with v', () => {
@@ -86,9 +101,10 @@ describe('node-version', () => {
   });
 
   test('numeric properties should be valid numbers', () => {
-    expect(Number(version.major)).not.toBeNaN();
-    expect(Number(version.minor)).not.toBeNaN();
-    expect(Number(version.build)).not.toBeNaN();
+    const v = getVersion();
+    expect(Number(v.major)).not.toBeNaN();
+    expect(Number(v.minor)).not.toBeNaN();
+    expect(Number(v.build)).not.toBeNaN();
   });
 
   test('short format should have exactly one dot', () => {

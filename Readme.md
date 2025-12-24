@@ -69,6 +69,24 @@ To
 var currentVersion = require('node-version');
 ```
 
+## How to publish
+
+To publish a new version, you can use the following commands:
+
+```bash
+# For a latest release
+bun run publish-latest
+
+# For a beta release
+bun run publish-beta
+```
+
+Note: Replace `xxx` with your OTP in the `package.json` if needed, or set it via environment variable.
+
+## License
+
+MIT
+
 [npm-version-image]: https://img.shields.io/npm/v/node-version.svg
 [npm-downloads-image]: https://img.shields.io/npm/dm/node-version.svg
 [npm-url]: https://npmjs.org/package/node-version
