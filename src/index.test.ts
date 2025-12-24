@@ -7,10 +7,12 @@
 import { describe, expect, test, vi } from 'vitest';
 import { getVersion, version } from './index.js';
 
+const { mockVersion } = vi.hoisted(() => ({
+  mockVersion: { node: '10.1.0' }
+}));
+
 vi.mock('node:process', () => ({
-  versions: {
-    node: '10.1.0'
-  }
+  versions: mockVersion
 }));
 
 const TARGET_NODE_MAJOR = '10';
@@ -119,5 +121,26 @@ describe('node-version', () => {
 
   test('long should equal original without v prefix', () => {
     expect(version.long).toBe(version.original.slice(1));
+  });
+
+  describe('robustness', () => {
+    test('should handle malformed version string', () => {
+      mockVersion.node = '10';
+      const v = getVersion();
+      expect(v.major).toBe('10');
+      expect(v.minor).toBe('0');
+      expect(v.build).toBe('0');
+      expect(v.short).toBe('10.0');
+      mockVersion.node = '10.1.0'; // reset
+    });
+
+    test('should handle missing versions.node', () => {
+      // @ts-expect-error
+      mockVersion.node = undefined;
+      const v = getVersion();
+      expect(v.major).toBe('0');
+      expect(v.long).toBe('0.0.0');
+      mockVersion.node = '10.1.0'; // reset
+    });
   });
 });
