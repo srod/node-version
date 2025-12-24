@@ -13,6 +13,7 @@
   },
   "homepage": "https://github.com/srod/node-version",
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -22,12 +23,10 @@
     "test": "__tests__"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
+    "import": "./dist/index.js"
   },
   "files": [
     "dist/**/*"
@@ -44,7 +43,7 @@
   },
   "scripts": {
     "clean": "bunx rimraf dist",
-    "build": "bun run clean && tsup src/index.ts --format cjs,esm --dts --clean --sourcemap",
+    "build": "bun run clean && tsup src/index.ts --format esm --dts --clean --sourcemap",
     "prepublishOnly": "bun run build",
     "typecheck": "tsc --noEmit",
     "coverage": "vitest run --coverage",

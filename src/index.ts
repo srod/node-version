@@ -6,7 +6,7 @@
 
 import { versions } from 'node:process';
 
-const nodeVersion = () => {
+const getVersion = () => {
   const split = versions.node.split('.');
 
   return {
@@ -20,7 +20,6 @@ const nodeVersion = () => {
 };
 
 /**
- * Expose `nodeVersion()`.
+ * Expose `version`.
  */
-nodeVersion.default = nodeVersion();
-export = nodeVersion();
+export const version = getVersion();

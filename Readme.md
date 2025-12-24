@@ -20,10 +20,10 @@ pnpm add node-version
 ## Quick Start
 
 ```js
-import currentVersion from 'node-version';
+import { version } from 'node-version';
 
 /*
-console.log(currentVersion);
+console.log(version);
 
 {
     original: 'v0.4.10', // same as process.version
@@ -37,6 +37,23 @@ console.log(currentVersion);
 ```
 
 ## Warning
+
+### Version 4.0.0 (ESM-only)
+
+Starting with v4.0.0, this package is **ESM-only** and requires **Node.js 20+**.
+
+```js
+// ESM (v4+)
+import { version } from 'node-version';
+```
+
+If you need CommonJS support, use v3.x:
+
+```shell
+npm install node-version@3
+```
+
+### Version 1.0.0
 
 Version 1.0.0 break 0.1.0 since its API changes.
 
