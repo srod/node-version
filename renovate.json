@@ -9,6 +9,11 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["@tsconfig/node20"],
+      "enabled": false,
+      "description": "Pinned to match minimum supported Node version (20.x)"
     }
   ],
   "lockFileMaintenance": {
