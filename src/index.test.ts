@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, test, vi } from 'vitest';
-import { version } from '../src';
+import { version } from './index.js';
 
 const TARGET_NODE_MAJOR = '10';
 const TARGET_NODE_MINOR = '1';
@@ -66,5 +66,42 @@ describe('node-version', () => {
 
   test('build value should be ok', () => {
     expect(version.build).toBe(TARGET_NODE_PATCH);
+  });
+
+  test('all properties should be strings', () => {
+    expect(typeof version.original).toBe('string');
+    expect(typeof version.short).toBe('string');
+    expect(typeof version.long).toBe('string');
+    expect(typeof version.major).toBe('string');
+    expect(typeof version.minor).toBe('string');
+    expect(typeof version.build).toBe('string');
+  });
+
+  test('object should have exactly 6 properties', () => {
+    expect(Object.keys(version)).toHaveLength(6);
+  });
+
+  test('original property should start with v', () => {
+    expect(version.original).toMatch(/^v/);
+  });
+
+  test('numeric properties should be valid numbers', () => {
+    expect(Number(version.major)).not.toBeNaN();
+    expect(Number(version.minor)).not.toBeNaN();
+    expect(Number(version.build)).not.toBeNaN();
+  });
+
+  test('short format should have exactly one dot', () => {
+    const dots = version.short.split('.').length - 1;
+    expect(dots).toBe(1);
+  });
+
+  test('long format should have exactly two dots', () => {
+    const dots = version.long.split('.').length - 1;
+    expect(dots).toBe(2);
+  });
+
+  test('long should equal original without v prefix', () => {
+    expect(version.long).toBe(version.original.slice(1));
   });
 });
