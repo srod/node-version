@@ -1,10 +1,7 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
+  "extends": "@total-typescript/tsconfig/tsc/no-dom/library-monorepo",
   "compilerOptions": {
-    "module": "NodeNext",
-    "declaration": true,
-    "removeComments": true,
-    "resolveJsonModule": true
-  },
-  "exclude": ["node_modules", "dist/**"]
+    "noEmit": true,
+    "composite": false
+  }
 }
