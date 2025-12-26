@@ -12,7 +12,7 @@ A lightweight utility to get the current Node.js version parsed into a structure
 - 🚀 **Fast and Lightweight**: Barely any overhead.
 - 📦 **ESM Only**: Built for modern environments.
 - 🛠️ **TypeScript Ready**: Full type definitions included.
-- 🚦 **Comparison Helpers**: easy `is()` and `isAtLeast()` checks.
+- 🚦 **Comparison Helpers**: `is()`, `isAtLeast()`, `isAbove()`, `isBelow()`, `isAtMost()` checks.
 
 ## Installation
 
@@ -45,6 +45,9 @@ console.log(version);
     minor: '10',
     build: '0',
     isAtLeast: [Function],
+    isAbove: [Function],
+    isBelow: [Function],
+    isAtMost: [Function],
     is: [Function]
 }
 */
@@ -76,6 +79,9 @@ const v = getVersion();
 | `minor` | `string` | The minor version number. |
 | `build` | `string` | The build/patch version number. |
 | `isAtLeast(version)` | `(v: string) => boolean` | Checks if the current version is ≥ the specified version. |
+| `isAbove(version)` | `(v: string) => boolean` | Checks if the current version is > the specified version. |
+| `isBelow(version)` | `(v: string) => boolean` | Checks if the current version is < the specified version. |
+| `isAtMost(version)` | `(v: string) => boolean` | Checks if the current version is ≤ the specified version. |
 | `is(version)` | `(v: string) => boolean` | Checks if the current version is exactly the specified version. |
 
 ## Compare Versions
@@ -89,6 +95,14 @@ if (version.isAtLeast('20.0.0')) {
 
 if (version.is('22.0.0')) {
   console.log('Running on exactly Node.js 22.0.0');
+}
+
+if (version.isAbove('20.0.0')) {
+  console.log('Running on Node.js strictly above 20.0.0');
+}
+
+if (version.isBelow('22.0.0')) {
+  console.log('Running on Node.js strictly below 22.0.0');
 }
 ```
 

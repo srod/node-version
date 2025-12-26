@@ -93,9 +93,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 8 properties", () => {
-        expect(Object.keys(version)).toHaveLength(8);
-        expect(Object.keys(getVersion())).toHaveLength(8);
+    test("object should have exactly 11 properties", () => {
+        expect(Object.keys(version)).toHaveLength(11);
+        expect(Object.keys(getVersion())).toHaveLength(11);
     });
 
     test("original property should start with v", () => {
@@ -193,6 +193,45 @@ describe("node-version", () => {
         test("is should return false for different version", () => {
             expect(version.is("10.1.1")).toBe(false);
             expect(version.is("11.0.0")).toBe(false);
+        });
+
+        test("isAbove should return true for strictly lower version", () => {
+            expect(version.isAbove("9.0.0")).toBe(true);
+            expect(version.isAbove("10.0.9")).toBe(true);
+        });
+
+        test("isAbove should return false for equal version", () => {
+            expect(version.isAbove("10.1.0")).toBe(false);
+        });
+
+        test("isAbove should return false for higher version", () => {
+            expect(version.isAbove("10.2.0")).toBe(false);
+        });
+
+        test("isBelow should return true for strictly higher version", () => {
+            expect(version.isBelow("11.0.0")).toBe(true);
+            expect(version.isBelow("10.2.0")).toBe(true);
+        });
+
+        test("isBelow should return false for equal version", () => {
+            expect(version.isBelow("10.1.0")).toBe(false);
+        });
+
+        test("isBelow should return false for lower version", () => {
+            expect(version.isBelow("9.0.0")).toBe(false);
+        });
+
+        test("isAtMost should return true for higher version", () => {
+            expect(version.isAtMost("11.0.0")).toBe(true);
+            expect(version.isAtMost("10.2.0")).toBe(true);
+        });
+
+        test("isAtMost should return true for equal version", () => {
+            expect(version.isAtMost("10.1.0")).toBe(true);
+        });
+
+        test("isAtMost should return false for lower version", () => {
+            expect(version.isAtMost("9.0.0")).toBe(false);
         });
     });
 });
