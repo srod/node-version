@@ -36,6 +36,22 @@ console.log(version);
 */
 ```
 
+## Compare Versions
+
+You can check if the current Node.js version is at least a specific version or exactly matches a version:
+
+```js
+import { version } from 'node-version';
+
+if (version.isAtLeast('20.0.0')) {
+  console.log('Running on Node.js 20 or newer');
+}
+
+if (version.is('20.10.0')) {
+  console.log('Running on Node.js 20.10.0');
+}
+```
+
 ## Warning
 
 ### Version 4.0.0 (ESM-only)
@@ -90,7 +106,7 @@ MIT
 [npm-version-image]: https://img.shields.io/npm/v/node-version.svg
 [npm-downloads-image]: https://img.shields.io/npm/dm/node-version.svg
 [npm-url]: https://npmjs.org/package/node-version
-[github-actions-image]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fsrod%2Fnode-minify%2Fbadge%3Fref%3Ddevelop&style=flat
-[github-actions-url]: https://github.com/srod/node-minify/actions
+[github-actions-image]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fsrod%2Fnode-version%2Fbadge%3Fref%3Dmain&style=flat
+[github-actions-url]: https://github.com/srod/node-version/actions
 [codecov-image]: https://codecov.io/gh/srod/node-version/branch/main/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/srod/node-version
