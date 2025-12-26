@@ -4,7 +4,10 @@
   "description": "Get Node current version",
   "keywords": [
     "node",
-    "version"
+    "version",
+    "runtime",
+    "environment",
+    "semver"
   ],
   "author": {
     "name": "Rodolphe Stoclin",
@@ -17,6 +20,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "sideEffects": false,
   "packageManager": "bun@1.3.5",
   "directories": {
     "lib": "dist"
@@ -25,7 +29,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
-    "import": "./dist/index.js"
+    "import": "./dist/index.js",
+    "default": "./dist/index.js"
   },
   "files": [
     "dist/**/*"
@@ -63,7 +68,6 @@
     "@total-typescript/tsconfig": "1.0.4",
     "@types/node": "24.10.4",
     "@vitest/coverage-v8": "4.0.16",
-    "rimraf": "6.1.2",
     "tsdown": "0.18.3",
     "typescript": "5.9.3",
     "vitest": "4.0.16"
