@@ -2,7 +2,9 @@
 .idea
 .vscode
 ._*
+
 node_modules
+dist
 coverage
 .history
-dist
+.vitest-cache
