@@ -57,4 +57,16 @@ export interface NodeVersion {
      * @param version The version to compare against (e.g., '20.0.0').
      */
     isAtMost(version: string): boolean;
+    /**
+     * Check if the current version is an LTS release.
+     */
+    isLTS: boolean;
+    /**
+     * The LTS codename (e.g., 'Iron') if currently on an LTS release, otherwise undefined.
+     */
+    ltsName: string | undefined;
+    /**
+     * Check if the current version is considered End-of-Life (EOL).
+     */
+    isEOL: boolean;
 }

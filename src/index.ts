@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-import { versions } from "node:process";
+import { release, versions } from "node:process";
 import type { NodeVersion } from "./types.js";
 
 export type { NodeVersion };
@@ -38,7 +38,29 @@ export const getVersion = (): NodeVersion => {
         isAtMost: (version: string): boolean => {
             return compareVersions(nodeVersion, version) <= 0;
         },
+        isLTS: !!release.lts,
+        ltsName: String(release.lts || "") || undefined,
+        isEOL: checkEOL(split[0] || "0"),
     };
+};
+
+/**
+ * End-of-Life dates for Node.js major versions.
+ */
+export const EOL_DATES: Record<string, string> = {
+    "18": "2025-04-30",
+    "20": "2026-04-30",
+    "22": "2027-04-30",
+    "24": "2028-04-30",
+};
+
+/**
+ * Check if a major version is EOL.
+ */
+const checkEOL = (major: string): boolean => {
+    const eolDate = EOL_DATES[major];
+    if (!eolDate) return false;
+    return new Date() > new Date(eolDate);
 };
 
 /**

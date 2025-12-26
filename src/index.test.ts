@@ -4,22 +4,34 @@
  * MIT Licensed
  */
 
-import { describe, expect, test, vi } from "vitest";
-import { getVersion, version } from "./index.js";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { versions as realVersions } from "node:process";
+import { EOL_DATES, getVersion, version } from "./index.js";
 
-const { mockVersion } = vi.hoisted(() => ({
+const { mockVersion, mockRelease } = vi.hoisted(() => ({
     mockVersion: { node: "10.1.0" },
+    mockRelease: { lts: "Dubnium" },
 }));
 
 vi.mock("node:process", () => ({
     versions: mockVersion,
+    release: mockRelease,
 }));
+
 
 const TARGET_NODE_MAJOR = "10";
 const TARGET_NODE_MINOR = "1";
 const TARGET_NODE_PATCH = "0";
 
 describe("node-version", () => {
+    beforeEach(() => {
+        vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     test("should be ok", () => {
         expect(version).toBeTruthy();
         expect(getVersion()).toBeTruthy();
@@ -93,9 +105,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 11 properties", () => {
-        expect(Object.keys(version)).toHaveLength(11);
-        expect(Object.keys(getVersion())).toHaveLength(11);
+    test("object should have exactly 14 properties", () => {
+        expect(Object.keys(version)).toHaveLength(14);
+        expect(Object.keys(getVersion())).toHaveLength(14);
     });
 
     test("original property should start with v", () => {
@@ -234,4 +246,59 @@ describe("node-version", () => {
             expect(version.isAtMost("9.0.0")).toBe(false);
         });
     });
+
+    describe("lts and eol", () => {
+        test("should identify non-LTS version", () => {
+            // @ts-expect-error
+            mockRelease.lts = undefined;
+            const v = getVersion();
+            expect(v.isLTS).toBe(false);
+            expect(v.ltsName).toBeUndefined();
+        });
+
+        test("should identify LTS version", () => {
+            mockRelease.lts = "Iron";
+            const v = getVersion();
+            expect(v.isLTS).toBe(true);
+            expect(v.ltsName).toBe("Iron");
+        });
+
+        test("should check EOL status for future EOL", () => {
+            vi.setSystemTime(new Date("2024-01-01"));
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            expect(v.isEOL).toBe(false);
+        });
+
+        test("should check EOL status for past EOL", () => {
+            vi.setSystemTime(new Date("2027-01-01"));
+            mockVersion.node = "20.10.0"; // EOL is 2026-04-30
+            const v = getVersion();
+            expect(v.isEOL).toBe(true);
+        });
+
+        test("should handle unknown EOL version", () => {
+            mockVersion.node = "99.0.0";
+            const v = getVersion();
+            expect(v.isEOL).toBe(false);
+        });
+
+        test("should handle version 18 EOL", () => {
+            vi.setSystemTime(new Date("2025-05-01"));
+            mockVersion.node = "18.0.0"; // EOL is 2025-04-30
+            const v = getVersion();
+            expect(v.isEOL).toBe(true);
+        });
+
+        test("should have current running node major in EOL_DATES if even", () => {
+            const currentMajor = (realVersions.node || "").split(".")[0] || "0";
+            const isEven = Number(currentMajor) % 2 === 0;
+
+            if (isEven) {
+                expect(EOL_DATES).toHaveProperty(currentMajor);
+            }
+        });
+    });
 });
+
+

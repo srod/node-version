@@ -12,6 +12,7 @@ A lightweight utility to get the current Node.js version parsed into a structure
 - 🚀 **Fast and Lightweight**: Barely any overhead.
 - 📦 **ESM Only**: Built for modern environments.
 - 🛠️ **TypeScript Ready**: Full type definitions included.
+- 📅 **LTS & EOL Checks**: Identify LTS releases and End-of-Life versions.
 - 🚦 **Comparison Helpers**: `is()`, `isAtLeast()`, `isAbove()`, `isBelow()`, `isAtMost()` checks.
 
 ## Installation
@@ -44,11 +45,15 @@ console.log(version);
     major: '20',
     minor: '10',
     build: '0',
+
     isAtLeast: [Function],
     isAbove: [Function],
     isBelow: [Function],
     isAtMost: [Function],
-    is: [Function]
+    is: [Function],
+    isLTS: true, // or false
+    ltsName: 'Iron', // or undefined
+    isEOL: false // or true
 }
 */
 ```
@@ -83,6 +88,9 @@ const v = getVersion();
 | `isBelow(version)` | `(v: string) => boolean` | Checks if the current version is < the specified version. |
 | `isAtMost(version)` | `(v: string) => boolean` | Checks if the current version is ≤ the specified version. |
 | `is(version)` | `(v: string) => boolean` | Checks if the current version is exactly the specified version. |
+| `isLTS` | `boolean` | `true` if the current version is an LTS release. |
+| `ltsName` | `string` | The LTS codename (e.g., 'Iron') or `undefined`. |
+| `isEOL` | `boolean` | `true` if the current version is past its End-of-Life date. |
 
 ## Compare Versions
 
