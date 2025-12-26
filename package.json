@@ -41,8 +41,7 @@
     "url": "https://github.com/srod/node-version/issues"
   },
   "scripts": {
-    "clean": "bunx rimraf dist",
-    "build": "bun run clean && tsup src/index.ts --format esm --dts --clean --sourcemap",
+    "build": "tsdown",
     "check-exports": "attw --pack . --profile esm-only",
     "prepublishOnly": "bun run build",
     "typecheck": "tsc --noEmit",
@@ -65,7 +64,7 @@
     "@types/node": "24.10.4",
     "@vitest/coverage-v8": "4.0.16",
     "rimraf": "6.1.2",
-    "tsup": "8.5.1",
+    "tsdown": "0.18.3",
     "typescript": "5.9.3",
     "vitest": "4.0.16"
   }
