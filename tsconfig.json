@@ -1,7 +1,7 @@
 {
-  "extends": "@total-typescript/tsconfig/tsc/no-dom/library-monorepo",
-  "compilerOptions": {
-    "noEmit": true,
-    "composite": false
-  }
+    "extends": "@total-typescript/tsconfig/tsc/no-dom/library-monorepo",
+    "compilerOptions": {
+        "noEmit": true,
+        "composite": false
+    }
 }

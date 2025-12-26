@@ -1,75 +1,75 @@
 {
-  "name": "node-version",
-  "version": "3.0.0",
-  "description": "Get Node current version",
-  "keywords": [
-    "node",
-    "version",
-    "runtime",
-    "environment",
-    "semver"
-  ],
-  "author": {
-    "name": "Rodolphe Stoclin",
-    "email": "rodolphe@2clics.net",
-    "url": "http://2clics.net"
-  },
-  "homepage": "https://github.com/srod/node-version",
-  "license": "MIT",
-  "type": "module",
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "sideEffects": false,
-  "packageManager": "bun@1.3.5",
-  "directories": {
-    "lib": "dist"
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
+    "name": "node-version",
+    "version": "3.0.0",
+    "description": "Get Node current version",
+    "keywords": [
+        "node",
+        "version",
+        "runtime",
+        "environment",
+        "semver"
+    ],
+    "author": {
+        "name": "Rodolphe Stoclin",
+        "email": "rodolphe@2clics.net",
+        "url": "http://2clics.net"
+    },
+    "homepage": "https://github.com/srod/node-version",
+    "license": "MIT",
+    "type": "module",
+    "engines": {
+        "node": ">=20.0.0"
+    },
+    "sideEffects": false,
+    "packageManager": "bun@1.3.5",
+    "directories": {
+        "lib": "dist"
+    },
+    "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
-    "import": "./dist/index.js",
-    "default": "./dist/index.js"
-  },
-  "files": [
-    "dist/**/*"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/srod/node-version.git"
-  },
-  "bugs": {
-    "url": "https://github.com/srod/node-version/issues"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "check-exports": "attw --pack . --profile esm-only",
-    "prepublishOnly": "bun run build",
-    "typecheck": "tsc --noEmit",
-    "format:check": "biome check .",
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "changeset": "changeset",
-    "changeset:version": "changeset version && bun install --no-frozen-lockfile",
-    "changeset:release": "bun run build && changeset publish",
-    "pretest": "bun run lint",
-    "test": "vitest run",
-    "test:ci": "vitest run --coverage",
-    "test:watch": "vitest"
-  },
-  "devDependencies": {
-    "@arethetypeswrong/cli": "0.18.2",
-    "@biomejs/biome": "2.3.10",
-    "@changesets/cli": "2.29.8",
-    "@total-typescript/tsconfig": "1.0.4",
-    "@types/node": "24.10.4",
-    "@vitest/coverage-v8": "4.0.16",
-    "tsdown": "0.18.3",
-    "typescript": "5.9.3",
-    "vitest": "4.0.16"
-  }
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+    },
+    "files": [
+        "dist/**/*"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/srod/node-version.git"
+    },
+    "bugs": {
+        "url": "https://github.com/srod/node-version/issues"
+    },
+    "scripts": {
+        "build": "tsdown",
+        "check-exports": "attw --pack . --profile esm-only",
+        "prepublishOnly": "bun run build",
+        "typecheck": "tsc --noEmit",
+        "format:check": "biome check .",
+        "lint": "biome lint .",
+        "format": "biome format . --write",
+        "changeset": "changeset",
+        "changeset:version": "changeset version && bun install --no-frozen-lockfile",
+        "changeset:release": "bun run build && changeset publish",
+        "pretest": "bun run lint",
+        "test": "vitest run",
+        "test:ci": "vitest run --coverage",
+        "test:watch": "vitest"
+    },
+    "devDependencies": {
+        "@arethetypeswrong/cli": "0.18.2",
+        "@biomejs/biome": "2.3.10",
+        "@changesets/cli": "2.29.8",
+        "@total-typescript/tsconfig": "1.0.4",
+        "@types/node": "24.10.4",
+        "@vitest/coverage-v8": "4.0.16",
+        "tsdown": "0.18.3",
+        "typescript": "5.9.3",
+        "vitest": "4.0.16"
+    }
 }

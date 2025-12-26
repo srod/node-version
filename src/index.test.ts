@@ -4,195 +4,195 @@
  * MIT Licensed
  */
 
-import { describe, expect, test, vi } from 'vitest';
-import { getVersion, version } from './index.js';
+import { describe, expect, test, vi } from "vitest";
+import { getVersion, version } from "./index.js";
 
 const { mockVersion } = vi.hoisted(() => ({
-  mockVersion: { node: '10.1.0' }
+    mockVersion: { node: "10.1.0" },
 }));
 
-vi.mock('node:process', () => ({
-  versions: mockVersion
+vi.mock("node:process", () => ({
+    versions: mockVersion,
 }));
 
-const TARGET_NODE_MAJOR = '10';
-const TARGET_NODE_MINOR = '1';
-const TARGET_NODE_PATCH = '0';
+const TARGET_NODE_MAJOR = "10";
+const TARGET_NODE_MINOR = "1";
+const TARGET_NODE_PATCH = "0";
 
-describe('node-version', () => {
-  test('should be ok', () => {
-    expect(version).toBeTruthy();
-    expect(getVersion()).toBeTruthy();
-  });
-
-  test('should have original property', () => {
-    expect(version).toHaveProperty('original');
-    expect(getVersion()).toHaveProperty('original');
-  });
-
-  test('original value should be ok', () => {
-    const expected = `v${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
-    expect(version.original).toBe(expected);
-    expect(getVersion().original).toBe(expected);
-  });
-
-  test('should have short property', () => {
-    expect(version).toHaveProperty('short');
-  });
-
-  test('short value should be ok', () => {
-    const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}`;
-    expect(version.short).toBe(expected);
-    expect(getVersion().short).toBe(expected);
-  });
-
-  test('should have long property', () => {
-    expect(version).toHaveProperty('long');
-  });
-
-  test('long value should be ok', () => {
-    const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
-    expect(version.long).toBe(expected);
-    expect(getVersion().long).toBe(expected);
-  });
-
-  test('should have major property', () => {
-    expect(version).toHaveProperty('major');
-  });
-
-  test('major value should be ok', () => {
-    expect(version.major).toBe(TARGET_NODE_MAJOR);
-    expect(getVersion().major).toBe(TARGET_NODE_MAJOR);
-  });
-
-  test('should have minor property', () => {
-    expect(version).toHaveProperty('minor');
-  });
-
-  test('minor value should be ok', () => {
-    expect(version.minor).toBe(TARGET_NODE_MINOR);
-    expect(getVersion().minor).toBe(TARGET_NODE_MINOR);
-  });
-
-  test('should have build property', () => {
-    expect(version).toHaveProperty('build');
-  });
-
-  test('build value should be ok', () => {
-    expect(version.build).toBe(TARGET_NODE_PATCH);
-    expect(getVersion().build).toBe(TARGET_NODE_PATCH);
-  });
-
-  test('all properties should be strings', () => {
-    const v = getVersion();
-    expect(typeof v.original).toBe('string');
-    expect(typeof v.short).toBe('string');
-    expect(typeof v.long).toBe('string');
-    expect(typeof v.major).toBe('string');
-    expect(typeof v.minor).toBe('string');
-    expect(typeof v.build).toBe('string');
-  });
-
-  test('object should have exactly 8 properties', () => {
-    expect(Object.keys(version)).toHaveLength(8);
-    expect(Object.keys(getVersion())).toHaveLength(8);
-  });
-
-  test('original property should start with v', () => {
-    expect(version.original).toMatch(/^v/);
-  });
-
-  test('numeric properties should be valid numbers', () => {
-    const v = getVersion();
-    expect(Number(v.major)).not.toBeNaN();
-    expect(Number(v.minor)).not.toBeNaN();
-    expect(Number(v.build)).not.toBeNaN();
-  });
-
-  test('short format should have exactly one dot', () => {
-    const dots = version.short.split('.').length - 1;
-    expect(dots).toBe(1);
-  });
-
-  test('long format should have exactly two dots', () => {
-    const dots = version.long.split('.').length - 1;
-    expect(dots).toBe(2);
-  });
-
-  test('long should equal original without v prefix', () => {
-    expect(version.long).toBe(version.original.slice(1));
-  });
-
-  describe('robustness', () => {
-    test('should handle malformed version string', () => {
-      mockVersion.node = '10';
-      const v = getVersion();
-      expect(v.major).toBe('10');
-      expect(v.minor).toBe('0');
-      expect(v.build).toBe('0');
-      expect(v.short).toBe('10.0');
-      mockVersion.node = '10.1.0'; // reset
+describe("node-version", () => {
+    test("should be ok", () => {
+        expect(version).toBeTruthy();
+        expect(getVersion()).toBeTruthy();
     });
 
-    test('should handle missing versions.node', () => {
-      // @ts-expect-error
-      mockVersion.node = undefined;
-      const v = getVersion();
-      expect(v.major).toBe('0');
-      expect(v.long).toBe('0.0.0');
-      // Branch coverage for isAtLeast with undefined nodeVersion
-      expect(v.isAtLeast('1.0.0')).toBe(false);
-      mockVersion.node = '10.1.0'; // reset
+    test("should have original property", () => {
+        expect(version).toHaveProperty("original");
+        expect(getVersion()).toHaveProperty("original");
     });
 
-    test('should handle empty version string', () => {
-      mockVersion.node = '';
-      const v = getVersion();
-      expect(v.major).toBe('0');
-      expect(v.minor).toBe('0');
-      expect(v.build).toBe('0');
-      expect(v.short).toBe('0.0');
-      // Branch coverage for isAtLeast with empty nodeVersion
-      expect(v.isAtLeast('0.0.1')).toBe(false);
-      mockVersion.node = '10.1.0'; // reset
-    });
-  });
-
-  describe('comparison', () => {
-    test('isAtLeast should return true for lower version', () => {
-      expect(version.isAtLeast('9.0.0')).toBe(true);
-      expect(version.isAtLeast('10.0.0')).toBe(true);
-      expect(version.isAtLeast('10.0.9')).toBe(true); // 10.1.0 > 10.0.9
+    test("original value should be ok", () => {
+        const expected = `v${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
+        expect(version.original).toBe(expected);
+        expect(getVersion().original).toBe(expected);
     });
 
-    test('isAtLeast should return true for equal version', () => {
-      expect(version.isAtLeast('10.1.0')).toBe(true);
+    test("should have short property", () => {
+        expect(version).toHaveProperty("short");
     });
 
-    test('isAtLeast should return false for higher version', () => {
-      expect(version.isAtLeast('10.1.1')).toBe(false);
-      expect(version.isAtLeast('10.2.0')).toBe(false);
-      expect(version.isAtLeast('11.0.0')).toBe(false);
+    test("short value should be ok", () => {
+        const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}`;
+        expect(version.short).toBe(expected);
+        expect(getVersion().short).toBe(expected);
     });
 
-    test('isAtLeast should handle partial versions', () => {
-      expect(version.isAtLeast('10')).toBe(true);
-      expect(version.isAtLeast('10.1')).toBe(true);
-      expect(version.isAtLeast('10.2')).toBe(false);
+    test("should have long property", () => {
+        expect(version).toHaveProperty("long");
     });
 
-    test('isAtLeast should handle longer target versions', () => {
-      // Node 10.1.0 vs 10.1.0.1 (hypothetical)
-      expect(version.isAtLeast('10.1.0.1')).toBe(false);
+    test("long value should be ok", () => {
+        const expected = `${TARGET_NODE_MAJOR}.${TARGET_NODE_MINOR}.${TARGET_NODE_PATCH}`;
+        expect(version.long).toBe(expected);
+        expect(getVersion().long).toBe(expected);
     });
 
-    test('is should return true for equal version', () => {
-      expect(version.is('10.1.0')).toBe(true);
+    test("should have major property", () => {
+        expect(version).toHaveProperty("major");
     });
 
-    test('is should return false for different version', () => {
-      expect(version.is('10.1.1')).toBe(false);
-      expect(version.is('11.0.0')).toBe(false);
+    test("major value should be ok", () => {
+        expect(version.major).toBe(TARGET_NODE_MAJOR);
+        expect(getVersion().major).toBe(TARGET_NODE_MAJOR);
     });
-  });
+
+    test("should have minor property", () => {
+        expect(version).toHaveProperty("minor");
+    });
+
+    test("minor value should be ok", () => {
+        expect(version.minor).toBe(TARGET_NODE_MINOR);
+        expect(getVersion().minor).toBe(TARGET_NODE_MINOR);
+    });
+
+    test("should have build property", () => {
+        expect(version).toHaveProperty("build");
+    });
+
+    test("build value should be ok", () => {
+        expect(version.build).toBe(TARGET_NODE_PATCH);
+        expect(getVersion().build).toBe(TARGET_NODE_PATCH);
+    });
+
+    test("all properties should be strings", () => {
+        const v = getVersion();
+        expect(typeof v.original).toBe("string");
+        expect(typeof v.short).toBe("string");
+        expect(typeof v.long).toBe("string");
+        expect(typeof v.major).toBe("string");
+        expect(typeof v.minor).toBe("string");
+        expect(typeof v.build).toBe("string");
+    });
+
+    test("object should have exactly 8 properties", () => {
+        expect(Object.keys(version)).toHaveLength(8);
+        expect(Object.keys(getVersion())).toHaveLength(8);
+    });
+
+    test("original property should start with v", () => {
+        expect(version.original).toMatch(/^v/);
+    });
+
+    test("numeric properties should be valid numbers", () => {
+        const v = getVersion();
+        expect(Number(v.major)).not.toBeNaN();
+        expect(Number(v.minor)).not.toBeNaN();
+        expect(Number(v.build)).not.toBeNaN();
+    });
+
+    test("short format should have exactly one dot", () => {
+        const dots = version.short.split(".").length - 1;
+        expect(dots).toBe(1);
+    });
+
+    test("long format should have exactly two dots", () => {
+        const dots = version.long.split(".").length - 1;
+        expect(dots).toBe(2);
+    });
+
+    test("long should equal original without v prefix", () => {
+        expect(version.long).toBe(version.original.slice(1));
+    });
+
+    describe("robustness", () => {
+        test("should handle malformed version string", () => {
+            mockVersion.node = "10";
+            const v = getVersion();
+            expect(v.major).toBe("10");
+            expect(v.minor).toBe("0");
+            expect(v.build).toBe("0");
+            expect(v.short).toBe("10.0");
+            mockVersion.node = "10.1.0"; // reset
+        });
+
+        test("should handle missing versions.node", () => {
+            // @ts-expect-error
+            mockVersion.node = undefined;
+            const v = getVersion();
+            expect(v.major).toBe("0");
+            expect(v.long).toBe("0.0.0");
+            // Branch coverage for isAtLeast with undefined nodeVersion
+            expect(v.isAtLeast("1.0.0")).toBe(false);
+            mockVersion.node = "10.1.0"; // reset
+        });
+
+        test("should handle empty version string", () => {
+            mockVersion.node = "";
+            const v = getVersion();
+            expect(v.major).toBe("0");
+            expect(v.minor).toBe("0");
+            expect(v.build).toBe("0");
+            expect(v.short).toBe("0.0");
+            // Branch coverage for isAtLeast with empty nodeVersion
+            expect(v.isAtLeast("0.0.1")).toBe(false);
+            mockVersion.node = "10.1.0"; // reset
+        });
+    });
+
+    describe("comparison", () => {
+        test("isAtLeast should return true for lower version", () => {
+            expect(version.isAtLeast("9.0.0")).toBe(true);
+            expect(version.isAtLeast("10.0.0")).toBe(true);
+            expect(version.isAtLeast("10.0.9")).toBe(true); // 10.1.0 > 10.0.9
+        });
+
+        test("isAtLeast should return true for equal version", () => {
+            expect(version.isAtLeast("10.1.0")).toBe(true);
+        });
+
+        test("isAtLeast should return false for higher version", () => {
+            expect(version.isAtLeast("10.1.1")).toBe(false);
+            expect(version.isAtLeast("10.2.0")).toBe(false);
+            expect(version.isAtLeast("11.0.0")).toBe(false);
+        });
+
+        test("isAtLeast should handle partial versions", () => {
+            expect(version.isAtLeast("10")).toBe(true);
+            expect(version.isAtLeast("10.1")).toBe(true);
+            expect(version.isAtLeast("10.2")).toBe(false);
+        });
+
+        test("isAtLeast should handle longer target versions", () => {
+            // Node 10.1.0 vs 10.1.0.1 (hypothetical)
+            expect(version.isAtLeast("10.1.0.1")).toBe(false);
+        });
+
+        test("is should return true for equal version", () => {
+            expect(version.is("10.1.0")).toBe(true);
+        });
+
+        test("is should return false for different version", () => {
+            expect(version.is("10.1.1")).toBe(false);
+            expect(version.is("11.0.0")).toBe(false);
+        });
+    });
 });
