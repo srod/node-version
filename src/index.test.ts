@@ -93,9 +93,9 @@ describe('node-version', () => {
     expect(typeof v.build).toBe('string');
   });
 
-  test('object should have exactly 6 properties', () => {
-    expect(Object.keys(version)).toHaveLength(6);
-    expect(Object.keys(getVersion())).toHaveLength(6);
+  test('object should have exactly 8 properties', () => {
+    expect(Object.keys(version)).toHaveLength(8);
+    expect(Object.keys(getVersion())).toHaveLength(8);
   });
 
   test('original property should start with v', () => {
@@ -140,7 +140,59 @@ describe('node-version', () => {
       const v = getVersion();
       expect(v.major).toBe('0');
       expect(v.long).toBe('0.0.0');
+      // Branch coverage for isAtLeast with undefined nodeVersion
+      expect(v.isAtLeast('1.0.0')).toBe(false);
       mockVersion.node = '10.1.0'; // reset
+    });
+
+    test('should handle empty version string', () => {
+      mockVersion.node = '';
+      const v = getVersion();
+      expect(v.major).toBe('0');
+      expect(v.minor).toBe('0');
+      expect(v.build).toBe('0');
+      expect(v.short).toBe('0.0');
+      // Branch coverage for isAtLeast with empty nodeVersion
+      expect(v.isAtLeast('0.0.1')).toBe(false);
+      mockVersion.node = '10.1.0'; // reset
+    });
+  });
+
+  describe('comparison', () => {
+    test('isAtLeast should return true for lower version', () => {
+      expect(version.isAtLeast('9.0.0')).toBe(true);
+      expect(version.isAtLeast('10.0.0')).toBe(true);
+      expect(version.isAtLeast('10.0.9')).toBe(true); // 10.1.0 > 10.0.9
+    });
+
+    test('isAtLeast should return true for equal version', () => {
+      expect(version.isAtLeast('10.1.0')).toBe(true);
+    });
+
+    test('isAtLeast should return false for higher version', () => {
+      expect(version.isAtLeast('10.1.1')).toBe(false);
+      expect(version.isAtLeast('10.2.0')).toBe(false);
+      expect(version.isAtLeast('11.0.0')).toBe(false);
+    });
+
+    test('isAtLeast should handle partial versions', () => {
+      expect(version.isAtLeast('10')).toBe(true);
+      expect(version.isAtLeast('10.1')).toBe(true);
+      expect(version.isAtLeast('10.2')).toBe(false);
+    });
+
+    test('isAtLeast should handle longer target versions', () => {
+      // Node 10.1.0 vs 10.1.0.1 (hypothetical)
+      expect(version.isAtLeast('10.1.0.1')).toBe(false);
+    });
+
+    test('is should return true for equal version', () => {
+      expect(version.is('10.1.0')).toBe(true);
+    });
+
+    test('is should return false for different version', () => {
+      expect(version.is('10.1.1')).toBe(false);
+      expect(version.is('11.0.0')).toBe(false);
     });
   });
 });

@@ -32,4 +32,14 @@ export interface NodeVersion {
    * The build/patch version number as a string (e.g., '0').
    */
   build: string;
+  /**
+   * Check if the current Node version is at least the specified version.
+   * @param version The version to compare against (e.g., '20.0.0').
+   */
+  isAtLeast(version: string): boolean;
+  /**
+   * Check if the current Node version matches the specified version.
+   * @param version The version to compare against (e.g., '20.0.0').
+   */
+  is(version: string): boolean;
 }
