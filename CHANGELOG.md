@@ -1,5 +1,11 @@
 # node-version
 
+## 4.0.1
+
+### Patch Changes
+
+- e09df4a: test: verify npm trusted publishing with OIDC
+
 ## 4.0.0
 
 ### Major Changes
