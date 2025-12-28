@@ -55,7 +55,7 @@
         "format": "biome format . --write",
         "changeset": "changeset",
         "changeset:version": "changeset version && bun install --no-frozen-lockfile",
-        "changeset:release": "bun run build && changeset publish",
+        "changeset:release": "bun run build && changeset publish --provenance",
         "pretest": "bun run lint",
         "test": "vitest run",
         "test:ci": "vitest run --coverage",
