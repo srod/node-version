@@ -1,6 +1,6 @@
 {
     "name": "node-version",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "Get Node current version",
     "keywords": [
         "node",

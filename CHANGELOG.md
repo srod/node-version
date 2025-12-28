@@ -1,5 +1,11 @@
 # node-version
 
+## 4.0.2
+
+### Patch Changes
+
+- 7d02149: test: verify OIDC publishing with fixed workflow config
+
 ## 4.0.1
 
 ### Patch Changes
