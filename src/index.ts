@@ -22,7 +22,7 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        const s2 = target.split(".");
+        const s2 = target.replace(/^v/, "").split(".");
         const len = Math.max(nodeVersionParts.length, s2.length);
 
         for (let i = 0; i < len; i++) {
