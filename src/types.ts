@@ -35,26 +35,36 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at least the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
+     * @example
+     * version.isAtLeast('18.0.0'); // true if current is 20.0.0
      */
     isAtLeast(version: string): boolean;
     /**
      * Check if the current Node version matches the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
+     * @example
+     * version.is('20.0.0'); // true if current is 20.0.0
      */
     is(version: string): boolean;
     /**
      * Check if the current Node version is strictly greater than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
+     * @example
+     * version.isAbove('18.0.0'); // true if current is 20.0.0
      */
     isAbove(version: string): boolean;
     /**
      * Check if the current Node version is strictly less than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
+     * @example
+     * version.isBelow('22.0.0'); // true if current is 20.0.0
      */
     isBelow(version: string): boolean;
     /**
      * Check if the current Node version is at most the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
+     * @example
+     * version.isAtMost('22.0.0'); // true if current is 20.0.0
      */
     isAtMost(version: string): boolean;
     /**
