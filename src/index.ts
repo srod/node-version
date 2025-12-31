@@ -73,8 +73,14 @@ const compareVersions = (v1: string, v2: string): number => {
     const len = Math.max(s1.length, s2.length);
 
     for (let i = 0; i < len; i++) {
-        const n1 = Number(s1[i] || 0);
-        const n2 = Number(s2[i] || 0);
+        const p1 = s1[i] || "0";
+        const p2 = s2[i] || "0";
+        const n1 = parseInt(p1, 10);
+        const n2 = parseInt(p2, 10);
+
+        if (Number.isNaN(n1)) throw new Error(`Invalid version segment: ${p1}`);
+        if (Number.isNaN(n2)) throw new Error(`Invalid version segment: ${p2}`);
+
         if (n1 > n2) return 1;
         if (n1 < n2) return -1;
     }
