@@ -60,6 +60,7 @@ export const getVersion = (): NodeVersion => {
         isLTS: !!release.lts,
         ltsName: String(release.lts || "") || undefined,
         isEOL: checkEOL(split[0] || "0"),
+        toString: () => `v${nodeVersion}`,
     };
 };
 
