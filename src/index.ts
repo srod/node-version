@@ -27,7 +27,7 @@ export const getVersion = (): NodeVersion => {
 
         for (let i = 0; i < len; i++) {
             const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i] || 0);
+            const n2 = Number(s2[i]) || 0;
             if (n1 > n2) return 1;
             if (n1 < n2) return -1;
         }
