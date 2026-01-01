@@ -75,6 +75,16 @@ const compareVersions = (v1: string, v2: string): number => {
     for (let i = 0; i < len; i++) {
         const n1 = Number(s1[i] || 0);
         const n2 = Number(s2[i] || 0);
+
+        if (!Number.isFinite(n1) || !Number.isFinite(n2)) {
+            throw new Error(`Invalid version string: ${v1} or ${v2}`);
+        }
+    }
+
+    for (let i = 0; i < len; i++) {
+        const n1 = Number(s1[i] || 0);
+        const n2 = Number(s2[i] || 0);
+
         if (n1 > n2) return 1;
         if (n1 < n2) return -1;
     }
