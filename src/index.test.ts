@@ -105,9 +105,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 14 properties", () => {
-        expect(Object.keys(version)).toHaveLength(14);
-        expect(Object.keys(getVersion())).toHaveLength(14);
+    test("object should have exactly 15 properties", () => {
+        expect(Object.keys(version)).toHaveLength(15);
+        expect(Object.keys(getVersion())).toHaveLength(15);
     });
 
     test("original property should start with v", () => {
@@ -133,6 +133,11 @@ describe("node-version", () => {
 
     test("long should equal original without v prefix", () => {
         expect(version.long).toBe(version.original.slice(1));
+    });
+
+    test("toString should return original version", () => {
+        expect(version.toString()).toBe(version.original);
+        expect(String(version)).toBe(version.original);
     });
 
     describe("robustness", () => {

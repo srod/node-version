@@ -79,4 +79,8 @@ export interface NodeVersion {
      * Check if the current version is considered End-of-Life (EOL).
      */
     isEOL: boolean;
+    /**
+     * Returns the original version string.
+     */
+    toString(): string;
 }
