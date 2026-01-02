@@ -22,12 +22,31 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
+        if (!target) {
+            throw new Error(
+                "Invalid version string: empty. Please use format 'x.y.z'.",
+            );
+        }
+
         const s2 = target.split(".");
         const len = Math.max(nodeVersionParts.length, s2.length);
 
         for (let i = 0; i < len; i++) {
+            const part = s2[i];
+            const n2 = part === undefined ? 0 : Number(part);
+
+            if (Number.isNaN(n2)) {
+                throw new Error(
+                    `Invalid version string: '${target}'. Please use format 'x.y.z'.`,
+                );
+            }
+        }
+
+        for (let i = 0; i < len; i++) {
             const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
+            const part = s2[i];
+            const n2 = part === undefined ? 0 : Number(part);
+
             if (n1 > n2) return 1;
             if (n1 < n2) return -1;
         }
