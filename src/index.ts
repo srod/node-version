@@ -22,14 +22,33 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        const s2 = target.split(".");
+        const cleanTarget = target.replace(/^v/i, "");
+        const s2 = cleanTarget.split(".");
         const len = Math.max(nodeVersionParts.length, s2.length);
 
         for (let i = 0; i < len; i++) {
             const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
-            if (n1 > n2) return 1;
-            if (n1 < n2) return -1;
+            const part = s2[i];
+            const n2 = Number(part);
+
+            if (Number.isNaN(n2)) {
+                // If the target version part is invalid, we can't safely compare.
+                // In previous versions this defaulted to 0, which caused security issues.
+                // e.g. "v20" (NaN) -> 0. "18" > "0" -> true.
+                // Now we throw to prevent insecure defaults.
+                if (part === undefined) {
+                    // This happens if nodeVersionParts is longer than s2
+                    // e.g. target="10", node="10.1". s2[1] is undefined.
+                    // This is treated as 0, which is correct for version comparison "10" == "10.0"
+                } else {
+                    throw new Error(`Invalid version string: ${target}`);
+                }
+            }
+
+            const validN2 = Number.isNaN(n2) ? 0 : n2;
+
+            if (n1 > validN2) return 1;
+            if (n1 < validN2) return -1;
         }
 
         return 0;

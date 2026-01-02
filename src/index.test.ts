@@ -141,7 +141,7 @@ describe("node-version", () => {
     });
 
     describe("robustness", () => {
-        test("should handle malformed version string", () => {
+        test("should handle malformed version string in getVersion", () => {
             mockVersion.node = "10";
             const v = getVersion();
             expect(v.major).toBe("10");
@@ -149,6 +149,19 @@ describe("node-version", () => {
             expect(v.build).toBe("0");
             expect(v.short).toBe("10.0");
             mockVersion.node = "10.1.0"; // reset
+        });
+
+        test("should throw on invalid version string in comparison", () => {
+            expect(() => version.isAtLeast("invalid")).toThrow("Invalid version string: invalid");
+            // Use a version where the invalid part is actually reached/checked
+            expect(() => version.isAtLeast("10.a.0")).toThrow("Invalid version string: 10.a.0");
+        });
+
+        test("should handle version string with v prefix", () => {
+            // "10.1.0" (current mock) >= "v10.1.0"
+            expect(version.isAtLeast("v10.1.0")).toBe(true);
+            // "10.1.0" >= "v10.2.0" -> false
+            expect(version.isAtLeast("v10.2.0")).toBe(false);
         });
 
         test("should handle missing versions.node", () => {
