@@ -74,13 +74,27 @@ export const EOL_DATES: Record<string, string> = {
     "24": "2028-04-30",
 };
 
+// Cache for EOL timestamps to avoid date parsing on every call
+const EOL_TIMESTAMPS: Record<string, number> = {};
+for (const key in EOL_DATES) {
+    const date = new Date(EOL_DATES[key]);
+    if (!Number.isNaN(date.getTime())) {
+        EOL_TIMESTAMPS[key] = date.getTime();
+    }
+}
+
 /**
  * Check if a major version is EOL.
  */
 const checkEOL = (major: string): boolean => {
-    const eolDate = EOL_DATES[major];
-    if (!eolDate) return false;
-    return new Date() > new Date(eolDate);
+    const eolTimestamp = EOL_TIMESTAMPS[major];
+    if (!eolTimestamp) {
+        // Fallback for dynamically added EOL_DATES (if mutable)
+        const eolDate = EOL_DATES[major];
+        if (!eolDate) return false;
+        return new Date() > new Date(eolDate);
+    }
+    return Date.now() > eolTimestamp;
 };
 
 /**
