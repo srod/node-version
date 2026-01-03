@@ -250,6 +250,19 @@ describe("node-version", () => {
         test("isAtMost should return false for lower version", () => {
             expect(version.isAtMost("9.0.0")).toBe(false);
         });
+
+        test("should handle 'v' prefix in comparisons", () => {
+            // nodeVersion is "10.1.0"
+            expect(version.isAtLeast("v10.1.0")).toBe(true);
+            expect(version.is("v10.1.0")).toBe(false); // is() is strict string equality
+            expect(version.isAbove("v10.0.0")).toBe(true);
+            expect(version.isBelow("v10.2.0")).toBe(true);
+
+            // Critical security test case: ensure v11 (higher) is correctly identified as higher
+            // Previously might have failed if 'v' caused NaN comparison issues
+            expect(version.isBelow("v11.0.0")).toBe(true);
+            expect(version.isAtLeast("v11.0.0")).toBe(false);
+        });
     });
 
     describe("lts and eol", () => {
