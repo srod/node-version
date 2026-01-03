@@ -22,7 +22,15 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        const s2 = target.replace(/^v/i, "").split(".");
+        const s2 = target.replace(/^v+/i, "").split(".");
+
+        // Validate that the first segment is a valid number
+        // This prevents invalid strings (e.g. "garbage") from being treated as 0.0.0
+        const major = Number(s2[0]);
+        if (Number.isNaN(major)) {
+            return NaN;
+        }
+
         const len = Math.max(nodeVersionParts.length, s2.length);
 
         for (let i = 0; i < len; i++) {
