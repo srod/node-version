@@ -18,7 +18,6 @@ vi.mock("node:process", () => ({
     release: mockRelease,
 }));
 
-
 const TARGET_NODE_MAJOR = "10";
 const TARGET_NODE_MINOR = "1";
 const TARGET_NODE_PATCH = "0";
@@ -318,5 +317,3 @@ describe("node-version", () => {
         });
     });
 });
-
-
