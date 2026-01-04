@@ -300,6 +300,18 @@ describe("node-version", () => {
             expect(v.isEOL).toBe(false);
         });
 
+        test("should return true for very old version (Node 16)", () => {
+            mockVersion.node = "16.0.0";
+            const v = getVersion();
+            expect(v.isEOL).toBe(true);
+        });
+
+        test("should return true for very old version (Node 0.10)", () => {
+            mockVersion.node = "0.10.0";
+            const v = getVersion();
+            expect(v.isEOL).toBe(true);
+        });
+
         test("should handle version 18 EOL", () => {
             vi.setSystemTime(new Date("2025-05-01"));
             mockVersion.node = "18.0.0"; // EOL is 2025-04-30

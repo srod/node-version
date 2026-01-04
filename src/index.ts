@@ -22,9 +22,20 @@ export const EOL_DATES: Record<string, string> = {
 };
 
 /**
+ * Calculate the minimum version tracked.
+ */
+const MIN_TRACKED_MAJOR = Math.min(...Object.keys(EOL_DATES).map(Number));
+
+/**
  * Check if a major version is EOL.
  */
 const checkEOL = (major: string): boolean => {
+    const majorNum = Number(major);
+    // If it's a valid number and less than the minimum tracked version, it's EOL.
+    if (!Number.isNaN(majorNum) && majorNum < MIN_TRACKED_MAJOR) {
+        return true;
+    }
+
     const eolDate = EOL_DATES[major];
     if (!eolDate) return false;
     return new Date() > new Date(eolDate);
