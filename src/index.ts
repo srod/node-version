@@ -22,13 +22,22 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        const s2 = target.replace(/^v+/i, "").split(".");
-
-        // Validate that the first segment is a valid number
-        // This prevents invalid strings (e.g. "garbage") from being treated as 0.0.0
-        const major = Number(s2[0]);
-        if (Number.isNaN(major)) {
+        if (target !== target.trim() || target.length === 0) {
             return NaN;
+        }
+
+        const stripped = target.replace(/^v/i, "");
+
+        if (stripped.length === 0) {
+            return NaN;
+        }
+
+        const s2 = stripped.split(".");
+
+        for (const segment of s2) {
+            if (segment === "" || !/^\d+$/.test(segment)) {
+                return NaN;
+            }
         }
 
         const len = Math.max(nodeVersionParts.length, s2.length);

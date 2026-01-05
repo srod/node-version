@@ -1,4 +1,3 @@
-
 import { describe, expect, test, vi } from "vitest";
 import { getVersion } from "./index.js";
 
@@ -35,10 +34,22 @@ describe("security fixes", () => {
         expect(v.isAtMost("garbage")).toBe(false);
     });
 
+    test("should reject malformed version strings", () => {
+        const v = getVersion();
+
+        expect(v.isAtLeast("")).toBe(false);
+        expect(v.isAtLeast("v")).toBe(false);
+        expect(v.isAtLeast("10.garbage.0")).toBe(false);
+        expect(v.isAtLeast("10.0.garbage")).toBe(false);
+        expect(v.isAtLeast(" 10.0.0")).toBe(false);
+        expect(v.isAtLeast("10.0.0 ")).toBe(false);
+        expect(v.isAtLeast(" 10.0.0 ")).toBe(false);
+    });
+
     test("should handle 'version X' strings correctly", () => {
-         const v = getVersion();
-         // "version 99" -> parsed as NaN -> returns false
-         expect(v.isAtLeast("version 99")).toBe(false);
+        const v = getVersion();
+        // "version 99" -> parsed as NaN -> returns false
+        expect(v.isAtLeast("version 99")).toBe(false);
     });
 
     test("should still handle valid versions with v prefix", () => {
@@ -48,7 +59,7 @@ describe("security fixes", () => {
         expect(v.isBelow("v30.0.0")).toBe(true);
     });
 
-     test("should still handle valid versions without v prefix", () => {
+    test("should still handle valid versions without v prefix", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
