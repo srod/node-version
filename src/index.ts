@@ -10,13 +10,43 @@ import type { NodeVersion } from "./types.js";
 export type { NodeVersion };
 
 /**
+ * End-of-Life dates for Node.js major versions.
+ */
+export const EOL_DATES: Record<string, string> = {
+    "18": "2025-04-30",
+    "20": "2026-04-30",
+    "22": "2027-04-30",
+    "24": "2028-04-30",
+};
+
+/**
+ * Check if a major version is EOL.
+ */
+const checkEOL = (major: string): boolean => {
+    const eolDate = EOL_DATES[major];
+    if (!eolDate) return false;
+    return new Date() > new Date(eolDate);
+};
+
+/**
  * Get Node current version.
+ *
+ * @returns {NodeVersion} An object containing detailed version information, comparisons, and LTS/EOL status.
+ *
+ * @example
+ * import { version } from 'node-version';
+ * console.log(version.original); // 'v20.10.0'
+ * if (version.isLTS) {
+ *   console.log('Running on LTS!');
+ * }
  */
 export const getVersion = (): NodeVersion => {
     const nodeVersion = versions?.node ?? "0.0.0";
     const split = nodeVersion.split(".");
     // Pre-calculate numeric version parts for faster comparison
     const nodeVersionParts = split.map((s) => Number(s) || 0);
+    const major = split[0] || "0";
+    const eolString = EOL_DATES[major];
 
     /**
      * Compare the current node version with a target version string.
@@ -56,7 +86,7 @@ export const getVersion = (): NodeVersion => {
         original: `v${nodeVersion}`,
         short: `${split[0] || "0"}.${split[1] || "0"}`,
         long: nodeVersion,
-        major: split[0] || "0",
+        major: major,
         minor: split[1] || "0",
         build: split[2] || "0",
         isAtLeast: (version: string): boolean => {
@@ -76,28 +106,10 @@ export const getVersion = (): NodeVersion => {
         },
         isLTS: !!release.lts,
         ltsName: String(release.lts || "") || undefined,
-        isEOL: checkEOL(split[0] || "0"),
+        isEOL: checkEOL(major),
+        eolDate: eolString ? new Date(eolString) : undefined,
         toString: () => `v${nodeVersion}`,
     };
-};
-
-/**
- * End-of-Life dates for Node.js major versions.
- */
-export const EOL_DATES: Record<string, string> = {
-    "18": "2025-04-30",
-    "20": "2026-04-30",
-    "22": "2027-04-30",
-    "24": "2028-04-30",
-};
-
-/**
- * Check if a major version is EOL.
- */
-const checkEOL = (major: string): boolean => {
-    const eolDate = EOL_DATES[major];
-    if (!eolDate) return false;
-    return new Date() > new Date(eolDate);
 };
 
 /**
