@@ -88,9 +88,9 @@ const v = getVersion();
 | `isBelow(version)` | `(v: string) => boolean` | Checks if the current version is < the specified version. |
 | `isAtMost(version)` | `(v: string) => boolean` | Checks if the current version is ≤ the specified version. |
 | `is(version)` | `(v: string) => boolean` | Checks if the current version is exactly the specified version. |
-| `isLTS` | `boolean` | `true` if the current version is an LTS release. |
+| `isLTS` | `boolean` | `true` if the current version is an [LTS release](https://github.com/nodejs/release#release-schedule). |
 | `ltsName` | `string` | The LTS codename (e.g., 'Iron') or `undefined`. |
-| `isEOL` | `boolean` | `true` if the current version is past its End-of-Life date. |
+| `isEOL` | `boolean` | `true` if the current version is past its [End-of-Life date](https://github.com/nodejs/release#end-of-life-releases). |
 | `eolDate` | `Date \| undefined` | The date when this major version becomes End-of-Life. |
 | `toString()` | `() => string` | Returns the original version string prefixed with 'v'. |
 

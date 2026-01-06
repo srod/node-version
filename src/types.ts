@@ -69,19 +69,23 @@ export interface NodeVersion {
     isAtMost(version: string): boolean;
     /**
      * Check if the current version is an LTS release.
+     * @see https://github.com/nodejs/release#release-schedule
      */
     isLTS: boolean;
     /**
      * The LTS codename (e.g., 'Iron') if currently on an LTS release, otherwise undefined.
+     * @see https://github.com/nodejs/release#release-schedule
      */
     ltsName: string | undefined;
     /**
      * Check if the current version is considered End-of-Life (EOL).
+     * @see https://github.com/nodejs/release#end-of-life-releases
      */
     isEOL: boolean;
     /**
      * The date when this major version becomes End-of-Life.
      * Undefined if the EOL date is not known (e.g., for very old or future versions not yet in the map).
+     * @see https://github.com/nodejs/release#release-schedule
      */
     eolDate: Date | undefined;
     /**
