@@ -91,6 +91,8 @@ const v = getVersion();
 | `isLTS` | `boolean` | `true` if the current version is an LTS release. |
 | `ltsName` | `string` | The LTS codename (e.g., 'Iron') or `undefined`. |
 | `isEOL` | `boolean` | `true` if the current version is past its End-of-Life date. |
+| `eolDate` | `Date \| undefined` | The date when this major version becomes End-of-Life. |
+| `toString()` | `() => string` | Returns the original version string prefixed with 'v'. |
 
 ## Compare Versions
 

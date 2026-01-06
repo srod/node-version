@@ -80,6 +80,11 @@ export interface NodeVersion {
      */
     isEOL: boolean;
     /**
+     * The date when this major version becomes End-of-Life.
+     * Undefined if the EOL date is not known (e.g., for very old or future versions not yet in the map).
+     */
+    eolDate: Date | undefined;
+    /**
      * Returns the original version string.
      */
     toString(): string;
