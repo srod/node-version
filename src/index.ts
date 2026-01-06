@@ -56,7 +56,12 @@ export const getVersion = (): NodeVersion => {
             return NaN;
         }
 
-        const stripped = target.replace(/^v/i, "");
+        let stripped = target;
+        const code = target.charCodeAt(0);
+        if (code === 118 || code === 86) {
+            // 'v' or 'V'
+            stripped = target.slice(1);
+        }
 
         if (stripped.length === 0) {
             return NaN;
@@ -65,8 +70,11 @@ export const getVersion = (): NodeVersion => {
         const s2 = stripped.split(".");
 
         for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
-                return NaN;
+            if (segment === "") return NaN;
+
+            for (let i = 0; i < segment.length; i++) {
+                const c = segment.charCodeAt(i);
+                if (c < 48 || c > 57) return NaN;
             }
         }
 
