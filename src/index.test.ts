@@ -301,12 +301,20 @@ describe("node-version", () => {
         });
 
         test("should return true for very old version (Node 16)", () => {
+            vi.setSystemTime(new Date("2026-01-01"));
             mockVersion.node = "16.0.0";
             const v = getVersion();
             expect(v.isEOL).toBe(true);
         });
 
+        test("should return true for untracked old version (Node 12)", () => {
+            mockVersion.node = "12.0.0";
+            const v = getVersion();
+            expect(v.isEOL).toBe(true);
+        });
+
         test("should return true for very old version (Node 0.10)", () => {
+            vi.setSystemTime(new Date("2026-01-01"));
             mockVersion.node = "0.10.0";
             const v = getVersion();
             expect(v.isEOL).toBe(true);
