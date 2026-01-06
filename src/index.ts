@@ -20,25 +20,9 @@ export const EOL_DATES: Record<string, string> = {
 };
 
 /**
- * Maximum allowed length for version strings to prevent DoS.
- */
-export const MAX_VERSION_LENGTH = 256;
-
-/**
- * Calculate the minimum version tracked.
- */
-const MIN_TRACKED_MAJOR = Math.min(...Object.keys(EOL_DATES).map(Number));
-
-/**
  * Check if a major version is EOL.
  */
 const checkEOL = (major: string): boolean => {
-    const majorNum = Number(major);
-    // If it's a valid number and less than the minimum tracked version, it's EOL.
-    if (!Number.isNaN(majorNum) && majorNum < MIN_TRACKED_MAJOR) {
-        return true;
-    }
-
     const eolDate = EOL_DATES[major];
     if (!eolDate) return false;
     return new Date() > new Date(eolDate);
@@ -46,6 +30,15 @@ const checkEOL = (major: string): boolean => {
 
 /**
  * Get Node current version.
+ *
+ * @returns {NodeVersion} An object containing detailed version information, comparisons, and LTS/EOL status.
+ *
+ * @example
+ * import { version } from 'node-version';
+ * console.log(version.original); // 'v20.10.0'
+ * if (version.isLTS) {
+ *   console.log('Running on LTS!');
+ * }
  */
 export const getVersion = (): NodeVersion => {
     const nodeVersion = versions?.node ?? "0.0.0";
@@ -59,25 +52,11 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (
-            target !== target.trim() ||
-            target.length === 0 ||
-            target.length > MAX_VERSION_LENGTH
-        ) {
+        if (target !== target.trim() || target.length === 0) {
             return NaN;
         }
 
-        let start = 0;
-        // Optimized stripping of 'v' prefix using charCodeAt (118='v', 86='V')
-        while (
-            start < target.length &&
-            (target.charCodeAt(start) === 118 ||
-                target.charCodeAt(start) === 86)
-        ) {
-            start++;
-        }
-
-        const stripped = start > 0 ? target.slice(start) : target;
+        const stripped = target.replace(/^v/i, "");
 
         if (stripped.length === 0) {
             return NaN;
@@ -111,23 +90,19 @@ export const getVersion = (): NodeVersion => {
         minor: split[1] || "0",
         build: split[2] || "0",
         isAtLeast: (version: string): boolean => {
-            const cmp = compareTo(version);
-            return !Number.isNaN(cmp) && cmp >= 0;
+            return compareTo(version) >= 0;
         },
         is: (version: string): boolean => {
             return nodeVersion === version;
         },
         isAbove: (version: string): boolean => {
-            const cmp = compareTo(version);
-            return !Number.isNaN(cmp) && cmp > 0;
+            return compareTo(version) > 0;
         },
         isBelow: (version: string): boolean => {
-            const cmp = compareTo(version);
-            return !Number.isNaN(cmp) && cmp < 0;
+            return compareTo(version) < 0;
         },
         isAtMost: (version: string): boolean => {
-            const cmp = compareTo(version);
-            return !Number.isNaN(cmp) && cmp <= 0;
+            return compareTo(version) <= 0;
         },
         isLTS: !!release.lts,
         ltsName: String(release.lts || "") || undefined,

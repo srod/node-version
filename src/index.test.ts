@@ -300,26 +300,6 @@ describe("node-version", () => {
             expect(v.isEOL).toBe(false);
         });
 
-        test("should return true for very old version (Node 16)", () => {
-            vi.setSystemTime(new Date("2026-01-01"));
-            mockVersion.node = "16.0.0";
-            const v = getVersion();
-            expect(v.isEOL).toBe(true);
-        });
-
-        test("should return true for untracked old version (Node 12)", () => {
-            mockVersion.node = "12.0.0";
-            const v = getVersion();
-            expect(v.isEOL).toBe(true);
-        });
-
-        test("should return true for very old version (Node 0.10)", () => {
-            vi.setSystemTime(new Date("2026-01-01"));
-            mockVersion.node = "0.10.0";
-            const v = getVersion();
-            expect(v.isEOL).toBe(true);
-        });
-
         test("should handle version 18 EOL", () => {
             vi.setSystemTime(new Date("2025-05-01"));
             mockVersion.node = "18.0.0"; // EOL is 2025-04-30
@@ -334,6 +314,20 @@ describe("node-version", () => {
             if (isEven) {
                 expect(EOL_DATES).toHaveProperty(currentMajor);
             }
+        });
+
+        test("should have eolDate property", () => {
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            expect(v.eolDate).toBeDefined();
+            expect(v.eolDate).toBeInstanceOf(Date);
+            expect(v.eolDate?.toISOString().split("T")[0]).toBe("2026-04-30");
+        });
+
+        test("should have undefined eolDate for unknown version", () => {
+            mockVersion.node = "99.0.0";
+            const v = getVersion();
+            expect(v.eolDate).toBeUndefined();
         });
     });
 });

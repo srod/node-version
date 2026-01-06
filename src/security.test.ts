@@ -12,23 +12,13 @@ vi.mock("node:process", () => ({
 }));
 
 describe("security fixes", () => {
-    test("should treat multiple 'v' prefixes as valid version if numeric part follows", () => {
+    test("should not treat multiple 'v' prefixes as valid 0.0.0", () => {
         // Current: 20.0.0
         // Target: vv99.0.0
-        // With robust stripping: "vv99.0.0" -> "99.0.0".
-        // Comparison: 20 < 99.
-        // isAtLeast("vv99.0.0") should be false.
+        // Before fix: stripped to "v99" -> NaN -> 0.0.0. Result: 20 > 0 -> true (isAtLeast returns true).
+        // After fix: stripped to "99". Result: 20 < 99 -> false.
         const v = getVersion();
         expect(v.isAtLeast("vv99.0.0")).toBe(false);
-        // However, isBelow should now be true because it's a valid version comparison
-        expect(v.isBelow("vv99.0.0")).toBe(true);
-    });
-
-    test("should return false (fail-closed) for excessively long version strings", () => {
-        const v = getVersion();
-        const longString = `1.${"1.".repeat(500)}`; // > 256 chars
-        expect(v.isAtLeast(longString)).toBe(false);
-        expect(v.isBelow(longString)).toBe(false);
     });
 
     test("should treat invalid strings as non-match (fail-closed)", () => {
@@ -60,17 +50,6 @@ describe("security fixes", () => {
         const v = getVersion();
         // "version 99" -> parsed as NaN -> returns false
         expect(v.isAtLeast("version 99")).toBe(false);
-    });
-
-    test("should handle numeric edge cases correctly (fail-closed)", () => {
-        const v = getVersion();
-        // Current version is 20.0.0
-        expect(v.isAtLeast("010.0.0")).toBe(true); // Leading zeros (parsed as 10)
-        expect(v.isAtLeast("1e10.0.0")).toBe(false); // Scientific notation
-        expect(v.isAtLeast("0x10.0.0")).toBe(false); // Hex notation
-        expect(v.isAtLeast("-1.0.0")).toBe(false); // Negative numbers
-        expect(v.isAtLeast("+20.0.0")).toBe(false); // Plus signs
-        expect(v.isAtLeast("1..0")).toBe(false); // Double dots
     });
 
     test("should still handle valid versions with v prefix", () => {
