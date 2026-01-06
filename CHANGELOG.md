@@ -1,5 +1,15 @@
 # node-version
 
+## 4.2.0
+
+### Minor Changes
+
+- 15bd7e2: Added `eolDate` property to `NodeVersion` interface to provide the specific End-of-Life date for a major version.
+
+### Patch Changes
+
+- 131c4a3: Added security enhancements: DoS prevention via input length limit and robust 'v' prefix stripping.
+
 ## 4.1.0
 
 ### Minor Changes
