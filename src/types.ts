@@ -35,7 +35,6 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at least the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version >= target version.
      * @example
      * version.isAtLeast('18.0.0'); // true if current is 20.0.0
      */
@@ -43,7 +42,6 @@ export interface NodeVersion {
     /**
      * Check if the current Node version matches the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version === target version.
      * @example
      * version.is('20.0.0'); // true if current is 20.0.0
      */
@@ -51,7 +49,6 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is strictly greater than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version > target version.
      * @example
      * version.isAbove('18.0.0'); // true if current is 20.0.0
      */
@@ -59,7 +56,6 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is strictly less than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version < target version.
      * @example
      * version.isBelow('22.0.0'); // true if current is 20.0.0
      */
@@ -67,7 +63,6 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at most the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version <= target version.
      * @example
      * version.isAtMost('22.0.0'); // true if current is 20.0.0
      */
@@ -84,11 +79,6 @@ export interface NodeVersion {
      * Check if the current version is considered End-of-Life (EOL).
      */
     isEOL: boolean;
-    /**
-     * The date when this major version becomes End-of-Life.
-     * Undefined if the EOL date is not known (e.g., for very old or future versions not yet in the map).
-     */
-    eolDate: Date | undefined;
     /**
      * Returns the original version string.
      */
