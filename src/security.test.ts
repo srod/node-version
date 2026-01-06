@@ -62,6 +62,17 @@ describe("security fixes", () => {
         expect(v.isAtLeast("version 99")).toBe(false);
     });
 
+    test("should handle numeric edge cases correctly (fail-closed)", () => {
+        const v = getVersion();
+        // Current version is 20.0.0
+        expect(v.isAtLeast("010.0.0")).toBe(true); // Leading zeros (parsed as 10)
+        expect(v.isAtLeast("1e10.0.0")).toBe(false); // Scientific notation
+        expect(v.isAtLeast("0x10.0.0")).toBe(false); // Hex notation
+        expect(v.isAtLeast("-1.0.0")).toBe(false); // Negative numbers
+        expect(v.isAtLeast("+20.0.0")).toBe(false); // Plus signs
+        expect(v.isAtLeast("1..0")).toBe(false); // Double dots
+    });
+
     test("should still handle valid versions with v prefix", () => {
         const v = getVersion();
         expect(v.isAtLeast("v10.0.0")).toBe(true);
