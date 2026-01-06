@@ -111,19 +111,23 @@ export const getVersion = (): NodeVersion => {
         minor: split[1] || "0",
         build: split[2] || "0",
         isAtLeast: (version: string): boolean => {
-            return compareTo(version) >= 0;
+            const cmp = compareTo(version);
+            return !Number.isNaN(cmp) && cmp >= 0;
         },
         is: (version: string): boolean => {
             return nodeVersion === version;
         },
         isAbove: (version: string): boolean => {
-            return compareTo(version) > 0;
+            const cmp = compareTo(version);
+            return !Number.isNaN(cmp) && cmp > 0;
         },
         isBelow: (version: string): boolean => {
-            return compareTo(version) < 0;
+            const cmp = compareTo(version);
+            return !Number.isNaN(cmp) && cmp < 0;
         },
         isAtMost: (version: string): boolean => {
-            return compareTo(version) <= 0;
+            const cmp = compareTo(version);
+            return !Number.isNaN(cmp) && cmp <= 0;
         },
         isLTS: !!release.lts,
         ltsName: String(release.lts || "") || undefined,
