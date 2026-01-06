@@ -13,6 +13,8 @@ export type { NodeVersion };
  * End-of-Life dates for Node.js major versions.
  */
 export const EOL_DATES: Record<string, string> = {
+    "14": "2023-04-30",
+    "16": "2023-09-11",
     "18": "2025-04-30",
     "20": "2026-04-30",
     "22": "2027-04-30",
