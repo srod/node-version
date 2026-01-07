@@ -52,29 +52,59 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
-            return NaN;
+        const len = target.length;
+        if (len === 0) return NaN;
+
+        // Verify no leading/trailing whitespace
+        if (target.charCodeAt(0) <= 32 || target.charCodeAt(len - 1) <= 32) {
+            if (target !== target.trim()) return NaN;
         }
 
-        const stripped = target.replace(/^v/i, "");
-
-        if (stripped.length === 0) {
-            return NaN;
+        let start = 0;
+        // Strip 'v' or 'V' prefix
+        const c0 = target.charCodeAt(0);
+        if (c0 === 118 || c0 === 86) {
+            start = 1;
         }
 
-        const s2 = stripped.split(".");
+        if (start >= len) return NaN;
 
-        for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
+        // Manual version parsing
+        const targetParts: number[] = [];
+        let segmentStart = start;
+        let hasDigit = false;
+
+        for (let i = start; i < len; i++) {
+            const code = target.charCodeAt(i);
+            if (code === 46) {
+                // Dot separator
+                if (i === segmentStart) return NaN; // Empty segment or leading dot
+                if (!hasDigit) return NaN; // Segment with no digits? handled below
+                targetParts.push(Number(target.slice(segmentStart, i)));
+                segmentStart = i + 1;
+                hasDigit = false;
+            } else if (code >= 48 && code <= 57) {
+                // Digit 0-9
+                hasDigit = true;
+            } else {
+                // Invalid character
                 return NaN;
             }
         }
 
-        const len = Math.max(nodeVersionParts.length, s2.length);
+        // Handle last segment
+        if (segmentStart === len) return NaN; // Trailing dot
+        if (!hasDigit) {
+            // Check if last segment was empty or non-digit (already checked in loop but ensuring consistency)
+            return NaN;
+        }
+        targetParts.push(Number(target.slice(segmentStart)));
 
-        for (let i = 0; i < len; i++) {
+        const maxLen = Math.max(nodeVersionParts.length, targetParts.length);
+
+        for (let i = 0; i < maxLen; i++) {
             const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
+            const n2 = targetParts[i] || 0;
             if (n1 > n2) return 1;
             if (n1 < n2) return -1;
         }
