@@ -20,6 +20,12 @@ export const EOL_DATES: Record<string, string> = {
 };
 
 /**
+ * Maximum allowed length for a version string.
+ * Prevents Denial of Service (DoS) attacks via excessively long strings.
+ */
+const MAX_VERSION_LENGTH = 256;
+
+/**
  * Check if a major version is EOL.
  */
 const checkEOL = (major: string): boolean => {
@@ -52,6 +58,10 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
+        if (target.length > MAX_VERSION_LENGTH) {
+            return NaN;
+        }
+
         if (target !== target.trim() || target.length === 0) {
             return NaN;
         }
@@ -65,8 +75,12 @@ export const getVersion = (): NodeVersion => {
         const s2 = stripped.split(".");
 
         for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
-                return NaN;
+            if (segment === "") return NaN;
+            for (let i = 0; i < segment.length; i++) {
+                const code = segment.charCodeAt(i);
+                if (code < 48 || code > 57) {
+                    return NaN;
+                }
             }
         }
 
