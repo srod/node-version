@@ -91,6 +91,8 @@ const v = getVersion();
 | `isLTS` | `boolean` | `true` if the current version is an [LTS release](https://github.com/nodejs/release#release-schedule). |
 | `ltsName` | `string` | The LTS codename (e.g., 'Iron') or `undefined`. |
 | `isEOL` | `boolean` | `true` if the current version is past its [End-of-Life date](https://github.com/nodejs/release#end-of-life-releases). |
+| `eolDate` | `Date` | The date when this major version becomes End-of-Life. |
+| `daysUntilEOL` | `number` | The number of days until the EOL date (negative if passed). |
 
 ## Compare Versions
 

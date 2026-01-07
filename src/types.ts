@@ -94,6 +94,12 @@ export interface NodeVersion {
      */
     eolDate: Date | undefined;
     /**
+     * The number of days until the EOL date.
+     * Positive if EOL is in the future, negative if in the past.
+     * Undefined if the EOL date is not known.
+     */
+    daysUntilEOL: number | undefined;
+    /**
      * Returns the original version string.
      */
     toString(): string;
