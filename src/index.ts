@@ -47,6 +47,10 @@ export const getVersion = (): NodeVersion => {
     const nodeVersionParts = split.map((s) => Number(s) || 0);
     const major = split[0] || "0";
     const eolString = EOL_DATES[major];
+    const eolDate = eolString ? new Date(eolString) : undefined;
+    const daysUntilEOL = eolDate
+        ? Math.ceil((eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        : undefined;
 
     /**
      * Compare the current node version with a target version string.
@@ -107,7 +111,8 @@ export const getVersion = (): NodeVersion => {
         isLTS: !!release.lts,
         ltsName: String(release.lts || "") || undefined,
         isEOL: checkEOL(major),
-        eolDate: eolString ? new Date(eolString) : undefined,
+        eolDate,
+        daysUntilEOL,
         toString: () => `v${nodeVersion}`,
     };
 };

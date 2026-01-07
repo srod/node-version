@@ -4,8 +4,8 @@
  * MIT Licensed
  */
 
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { versions as realVersions } from "node:process";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { EOL_DATES, getVersion, version } from "./index.js";
 
 const { mockVersion, mockRelease } = vi.hoisted(() => ({
@@ -104,9 +104,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 16 properties", () => {
-        expect(Object.keys(version)).toHaveLength(16);
-        expect(Object.keys(getVersion())).toHaveLength(16);
+    test("object should have exactly 17 properties", () => {
+        expect(Object.keys(version)).toHaveLength(17);
+        expect(Object.keys(getVersion())).toHaveLength(17);
     });
 
     test("original property should start with v", () => {
@@ -328,6 +328,52 @@ describe("node-version", () => {
             mockVersion.node = "99.0.0";
             const v = getVersion();
             expect(v.eolDate).toBeUndefined();
+        });
+
+        test("should return a number for a known EOL date", () => {
+            // Mock current date to be before EOL
+            vi.useFakeTimers();
+            const mockDate = new Date("2024-01-01T00:00:00Z");
+            vi.setSystemTime(mockDate);
+            mockVersion.node = "20.10.0";
+
+            const version = getVersion();
+
+            // Node 20 EOL is 2026-04-30
+            const eolDate = new Date("2026-04-30");
+            const diffTime = eolDate.getTime() - mockDate.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            expect(version.daysUntilEOL).toBe(diffDays);
+            expect(version.daysUntilEOL).toBeGreaterThan(0);
+
+            vi.useRealTimers();
+        });
+
+        test("should return negative number for passed EOL date", () => {
+            // Mock current date to be after EOL
+            vi.useFakeTimers();
+            const mockDate = new Date("2027-01-01T00:00:00Z");
+            vi.setSystemTime(mockDate);
+            mockVersion.node = "20.10.0";
+
+            const version = getVersion();
+
+            // Node 20 EOL is 2026-04-30
+            const eolDate = new Date("2026-04-30");
+            const diffTime = eolDate.getTime() - mockDate.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            expect(version.daysUntilEOL).toBe(diffDays);
+            expect(version.daysUntilEOL).toBeLessThan(0);
+
+            vi.useRealTimers();
+        });
+
+        test("should have undefined daysUntilEOL for unknown version", () => {
+            mockVersion.node = "99.0.0";
+            const v = getVersion();
+            expect(v.daysUntilEOL).toBeUndefined();
         });
     });
 });
