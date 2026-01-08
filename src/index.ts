@@ -52,34 +52,68 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
-            return NaN;
+        const len = target.length;
+        if (len === 0) return NaN;
+
+        let i = 0;
+        const code0 = target.charCodeAt(0);
+
+        // Skip 'v' or 'V' prefix
+        if (code0 === 118 || code0 === 86) {
+            i = 1;
+            if (len === 1) return NaN; // "v" only
         }
 
-        const stripped = target.replace(/^v/i, "");
+        let val = 0;
+        let hasDigit = false;
+        let partIndex = 0;
+        let result = 0; // 0: equal, 1: greater, -1: smaller
 
-        if (stripped.length === 0) {
-            return NaN;
-        }
+        for (; i < len; i++) {
+            const code = target.charCodeAt(i);
 
-        const s2 = stripped.split(".");
+            if (code >= 48 && code <= 57) {
+                // 0-9
+                val = val * 10 + (code - 48);
+                hasDigit = true;
+            } else if (code === 46) {
+                // .
+                if (!hasDigit) return NaN;
 
-        for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
+                if (result === 0) {
+                    const n1 = nodeVersionParts[partIndex] || 0;
+                    if (n1 > val) result = 1;
+                    else if (n1 < val) result = -1;
+                }
+
+                partIndex++;
+                val = 0;
+                hasDigit = false;
+            } else {
                 return NaN;
             }
         }
 
-        const len = Math.max(nodeVersionParts.length, s2.length);
+        if (!hasDigit) return NaN; // Trailing dot or empty after v
 
-        for (let i = 0; i < len; i++) {
-            const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
-            if (n1 > n2) return 1;
-            if (n1 < n2) return -1;
+        // Compare last segment
+        if (result === 0) {
+            const n1 = nodeVersionParts[partIndex] || 0;
+            if (n1 > val) result = 1;
+            else if (n1 < val) result = -1;
+        }
+        partIndex++;
+
+        // If equal so far, check if node version has more non-zero parts
+        if (result === 0) {
+            for (let k = partIndex; k < nodeVersionParts.length; k++) {
+                if (nodeVersionParts[k] > 0) {
+                    return 1;
+                }
+            }
         }
 
-        return 0;
+        return result;
     };
 
     return {
