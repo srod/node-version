@@ -63,4 +63,12 @@ describe("security fixes", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
+
+    test("should reject extremely long version strings (DoS prevention)", () => {
+        const v = getVersion();
+        // 300 chars > MAX_VERSION_LENGTH (256)
+        const longString = "1".repeat(300);
+        expect(v.isAtLeast(longString)).toBe(false);
+        expect(v.isAtMost(longString)).toBe(false);
+    });
 });
