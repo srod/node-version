@@ -11,6 +11,8 @@ export type { NodeVersion };
 
 /**
  * End-of-Life dates for Node.js major versions.
+ * Keys are major version strings (e.g. "18"), values are "YYYY-MM-DD" date strings.
+ * @see https://github.com/nodejs/release#release-schedule
  */
 export const EOL_DATES: Record<string, string> = {
     "18": "2025-04-30",
@@ -113,6 +115,19 @@ export const getVersion = (): NodeVersion => {
 };
 
 /**
- * Node version information.
+ * Node version information for the current process.
+ *
+ * @example
+ * import { version } from 'node-version';
+ *
+ * console.log(version.original); // 'v20.10.0'
+ *
+ * if (version.isLTS) {
+ *   console.log(`Running on LTS: ${version.ltsName}`);
+ * }
+ *
+ * if (version.isAtLeast('20.0.0')) {
+ *   // Use new features
+ * }
  */
 export const version: NodeVersion = getVersion();
