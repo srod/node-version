@@ -11,6 +11,7 @@ export type { NodeVersion };
 
 /**
  * End-of-Life dates for Node.js major versions.
+ * @see https://github.com/nodejs/release#release-schedule
  */
 export const EOL_DATES: Record<string, string> = {
     "18": "2025-04-30",
