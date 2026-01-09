@@ -63,4 +63,12 @@ describe("security fixes", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
+
+    test("should reject version strings exceeding MAX_VERSION_LENGTH", () => {
+        const v = getVersion();
+        const longVersion = `${"1".repeat(300)}.0.0`;
+        // Should be fail-closed (return false) for all checks if string is too long
+        expect(v.isAtLeast(longVersion)).toBe(false);
+        expect(v.isBelow(longVersion)).toBe(false);
+    });
 });
