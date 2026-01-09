@@ -19,6 +19,8 @@ export const EOL_DATES: Record<string, string> = {
     "24": "2028-04-30",
 };
 
+const MAX_VERSION_LENGTH = 256;
+
 /**
  * Check if a major version is EOL.
  */
@@ -52,6 +54,9 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
+        if (target.length > MAX_VERSION_LENGTH) {
+            return NaN;
+        }
         if (target !== target.trim() || target.length === 0) {
             return NaN;
         }
