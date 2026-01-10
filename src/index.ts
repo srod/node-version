@@ -52,34 +52,79 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
+        const len = target.length;
+        if (len === 0) return NaN;
+
+        let start = 0;
+        // Handle optional 'v' or 'V' prefix
+        const c = target.charCodeAt(0);
+        if (c === 118 || c === 86) {
+            start = 1;
+            if (start === len) return NaN;
+        }
+
+        let val = 0;
+        let segmentIdx = 0;
+        let hasDigits = false;
+        let result = 0;
+
+        for (let i = start; i < len; i++) {
+            const code = target.charCodeAt(i);
+
+            // '.' (dot)
+            if (code === 46) {
+                if (!hasDigits) return NaN; // Empty segment
+
+                if (result === 0) {
+                    const n1 = nodeVersionParts[segmentIdx] || 0;
+                    if (n1 > val) {
+                        result = 1;
+                    } else if (n1 < val) {
+                        result = -1;
+                    }
+                }
+
+                // Reset for next segment
+                val = 0;
+                hasDigits = false;
+                segmentIdx++;
+                continue;
+            }
+
+            // '0'-'9'
+            if (code >= 48 && code <= 57) {
+                val = val * 10 + (code - 48);
+                hasDigits = true;
+                continue;
+            }
+
+            // Invalid character
             return NaN;
         }
 
-        const stripped = target.replace(/^v/i, "");
+        // Check last segment
+        if (!hasDigits) return NaN; // Trailing dot
 
-        if (stripped.length === 0) {
-            return NaN;
-        }
-
-        const s2 = stripped.split(".");
-
-        for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
-                return NaN;
+        if (result === 0) {
+            const n1 = nodeVersionParts[segmentIdx] || 0;
+            if (n1 > val) {
+                result = 1;
+            } else if (n1 < val) {
+                result = -1;
             }
         }
 
-        const len = Math.max(nodeVersionParts.length, s2.length);
+        segmentIdx++;
 
-        for (let i = 0; i < len; i++) {
-            const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
-            if (n1 > n2) return 1;
-            if (n1 < n2) return -1;
+        // Check for remaining node version parts
+        if (result === 0) {
+            while (segmentIdx < nodeVersionParts.length) {
+                if (nodeVersionParts[segmentIdx] > 0) return 1;
+                segmentIdx++;
+            }
         }
 
-        return 0;
+        return result;
     };
 
     return {
