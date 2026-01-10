@@ -35,41 +35,47 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at least the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version >= target version.
+     * @returns {boolean} True if current version >= target version. Returns `false` if the input version string is invalid or contains whitespace.
      * @example
      * version.isAtLeast('18.0.0'); // true if current is 20.0.0
+     * version.isAtLeast('invalid'); // false
      */
     isAtLeast(version: string): boolean;
     /**
      * Check if the current Node version matches the specified version.
+     * Performs a strict string comparison and does not handle 'v' prefix.
      * @param version The version to compare against (e.g., '20.0.0').
      * @returns {boolean} True if current version === target version.
      * @example
      * version.is('20.0.0'); // true if current is 20.0.0
+     * version.is('v20.0.0'); // false
      */
     is(version: string): boolean;
     /**
      * Check if the current Node version is strictly greater than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version > target version.
+     * @returns {boolean} True if current version > target version. Returns `false` if the input version string is invalid or contains whitespace.
      * @example
      * version.isAbove('18.0.0'); // true if current is 20.0.0
+     * version.isAbove('invalid'); // false
      */
     isAbove(version: string): boolean;
     /**
      * Check if the current Node version is strictly less than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version < target version.
+     * @returns {boolean} True if current version < target version. Returns `false` if the input version string is invalid or contains whitespace.
      * @example
      * version.isBelow('22.0.0'); // true if current is 20.0.0
+     * version.isBelow('invalid'); // false
      */
     isBelow(version: string): boolean;
     /**
      * Check if the current Node version is at most the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version <= target version.
+     * @returns {boolean} True if current version <= target version. Returns `false` if the input version string is invalid or contains whitespace.
      * @example
      * version.isAtMost('22.0.0'); // true if current is 20.0.0
+     * version.isAtMost('invalid'); // false
      */
     isAtMost(version: string): boolean;
     /**
@@ -84,6 +90,7 @@ export interface NodeVersion {
     ltsName: string | undefined;
     /**
      * Check if the current version is considered End-of-Life (EOL).
+     * Only tracks versions defined in the internal `EOL_DATES` map. Returns `false` for unknown or untracked versions.
      * @see https://github.com/nodejs/release#end-of-life-releases
      */
     isEOL: boolean;
