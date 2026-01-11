@@ -11,11 +11,19 @@ export type { NodeVersion };
 
 /**
  * End-of-Life dates for Node.js major versions.
+ * @see https://github.com/nodejs/Release
  */
 export const EOL_DATES: Record<string, string> = {
+    "12": "2022-04-30",
+    "14": "2023-04-30",
+    "16": "2023-09-11",
+    "17": "2022-06-01",
     "18": "2025-04-30",
+    "19": "2023-06-01",
     "20": "2026-04-30",
+    "21": "2024-04-10",
     "22": "2027-04-30",
+    "23": "2025-06-01",
     "24": "2028-04-30",
 };
 
@@ -24,8 +32,16 @@ export const EOL_DATES: Record<string, string> = {
  */
 const checkEOL = (major: string): boolean => {
     const eolDate = EOL_DATES[major];
-    if (!eolDate) return false;
-    return new Date() > new Date(eolDate);
+    if (eolDate) {
+        return new Date() > new Date(eolDate);
+    }
+    // Fail-safe for very old versions not in the map
+    // If the major version is less than the smallest key in EOL_DATES, it is definitely EOL.
+    const numericMajor = Number(major);
+    if (!Number.isNaN(numericMajor) && numericMajor < 12) {
+        return true;
+    }
+    return false;
 };
 
 /**

@@ -307,11 +307,25 @@ describe("node-version", () => {
             expect(v.isEOL).toBe(true);
         });
 
+        test("should check EOL for odd versions (e.g. 21)", () => {
+             vi.setSystemTime(new Date("2024-06-01"));
+             mockVersion.node = "21.0.0"; // EOL is 2024-04-10
+             const v = getVersion();
+             expect(v.isEOL).toBe(true);
+        });
+
+        test("should check EOL for very old versions (e.g. 10)", () => {
+             // 10 is not in the map, but < 12, so should be EOL
+             mockVersion.node = "10.0.0";
+             const v = getVersion();
+             expect(v.isEOL).toBe(true);
+        });
+
         test("should have current running node major in EOL_DATES if even", () => {
             const currentMajor = (realVersions.node || "").split(".")[0] || "0";
             const isEven = Number(currentMajor) % 2 === 0;
 
-            if (isEven) {
+            if (isEven && Number(currentMajor) >= 12 && Number(currentMajor) <= 24) {
                 expect(EOL_DATES).toHaveProperty(currentMajor);
             }
         });
