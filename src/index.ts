@@ -52,34 +52,77 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
-            return NaN;
+        let i = 0;
+        const len = target.length;
+        if (len === 0) return NaN;
+
+        // Skip leading 'v' or 'V'
+        const c0 = target.charCodeAt(0);
+        if (c0 === 118 || c0 === 86) {
+            // v or V
+            i++;
         }
 
-        const stripped = target.replace(/^v/i, "");
+        // If string was just "v", return NaN (stripped length 0 check)
+        if (i === len) return NaN;
 
-        if (stripped.length === 0) {
-            return NaN;
-        }
+        let result = 0;
+        let p = 0; // index in nodeVersionParts
 
-        const s2 = stripped.split(".");
+        let val = 0;
+        let hasDigits = false;
 
-        for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
+        for (; i < len; i++) {
+            const code = target.charCodeAt(i);
+
+            if (code === 46) {
+                // dot
+                if (!hasDigits) return NaN; // Empty segment or leading dot e.g. ".1" or "1..2"
+
+                // Compare segment
+                const n1 = nodeVersionParts[p] || 0;
+                const n2 = val;
+
+                if (result === 0) {
+                    if (n1 > n2) result = 1;
+                    else if (n1 < n2) result = -1;
+                }
+
+                p++;
+                val = 0;
+                hasDigits = false;
+            } else if (code >= 48 && code <= 57) {
+                // 0-9
+                val = val * 10 + (code - 48);
+                hasDigits = true;
+            } else {
+                // Invalid character (including whitespace, letters, etc.)
                 return NaN;
             }
         }
 
-        const len = Math.max(nodeVersionParts.length, s2.length);
+        // Process last segment
+        if (!hasDigits) return NaN; // Trailing dot "1.2."
 
-        for (let i = 0; i < len; i++) {
-            const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
-            if (n1 > n2) return 1;
-            if (n1 < n2) return -1;
+        const n1 = nodeVersionParts[p] || 0;
+        const n2 = val;
+
+        if (result === 0) {
+            if (n1 > n2) result = 1;
+            else if (n1 < n2) result = -1;
+        }
+        p++;
+
+        // Check remaining node parts
+        for (; p < nodeVersionParts.length; p++) {
+            const n1 = nodeVersionParts[p] || 0;
+            if (result === 0) {
+                if (n1 > 0) result = 1;
+                // n2 is 0 implicitly
+            }
         }
 
-        return 0;
+        return result;
     };
 
     return {
