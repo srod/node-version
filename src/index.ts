@@ -82,13 +82,21 @@ export const getVersion = (): NodeVersion => {
         return 0;
     };
 
-    return {
+    const versionObject = {
         original: `v${nodeVersion}`,
         short: `${split[0] || "0"}.${split[1] || "0"}`,
         long: nodeVersion,
         major: major,
         minor: split[1] || "0",
         build: split[2] || "0",
+        isLTS: !!release.lts,
+        ltsName: String(release.lts || "") || undefined,
+        isEOL: checkEOL(major),
+        eolDate: eolString ? new Date(eolString) : undefined,
+    };
+
+    return {
+        ...versionObject,
         isAtLeast: (version: string): boolean => {
             return compareTo(version) >= 0;
         },
@@ -104,11 +112,8 @@ export const getVersion = (): NodeVersion => {
         isAtMost: (version: string): boolean => {
             return compareTo(version) <= 0;
         },
-        isLTS: !!release.lts,
-        ltsName: String(release.lts || "") || undefined,
-        isEOL: checkEOL(major),
-        eolDate: eolString ? new Date(eolString) : undefined,
         toString: () => `v${nodeVersion}`,
+        toJSON: () => versionObject,
     };
 };
 

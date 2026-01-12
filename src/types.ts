@@ -97,4 +97,9 @@ export interface NodeVersion {
      * Returns the original version string.
      */
     toString(): string;
+    /**
+     * Returns a JSON representation of the version object.
+     * This method allows `JSON.stringify(version)` to work correctly.
+     */
+    toJSON(): Omit<NodeVersion, "isAtLeast" | "is" | "isAbove" | "isBelow" | "isAtMost" | "toString" | "toJSON">;
 }

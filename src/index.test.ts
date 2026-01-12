@@ -104,9 +104,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 16 properties", () => {
-        expect(Object.keys(version)).toHaveLength(16);
-        expect(Object.keys(getVersion())).toHaveLength(16);
+    test("object should have exactly 17 properties (including toJSON)", () => {
+        expect(Object.keys(version)).toHaveLength(17);
+        expect(Object.keys(getVersion())).toHaveLength(17);
     });
 
     test("original property should start with v", () => {
@@ -137,6 +137,25 @@ describe("node-version", () => {
     test("toString should return original version", () => {
         expect(version.toString()).toBe(version.original);
         expect(String(version)).toBe(version.original);
+    });
+
+    test("toJSON should return pure object representation", () => {
+        const v = getVersion();
+        const json = v.toJSON();
+
+        expect(json).toHaveProperty("original");
+        expect(json).toHaveProperty("major");
+        // Ensure functions are stripped
+        expect(json).not.toHaveProperty("isAtLeast");
+        expect(json).not.toHaveProperty("toJSON");
+
+        // Verify round-trip via JSON.stringify
+        const str = JSON.stringify(v);
+        const parsed = JSON.parse(str);
+        expect(parsed.original).toBe(v.original);
+        expect(parsed.major).toBe(v.major);
+        // Functions should be missing in parsed object
+        expect(parsed.isAtLeast).toBeUndefined();
     });
 
     describe("robustness", () => {
