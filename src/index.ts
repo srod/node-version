@@ -11,8 +11,18 @@ export type { NodeVersion };
 
 /**
  * End-of-Life dates for Node.js major versions.
+ * @see https://github.com/nodejs/release#end-of-life-releases
  */
 export const EOL_DATES: Record<string, string> = {
+    // Odd versions (EOL dates)
+    "19": "2023-06-01",
+    "21": "2024-06-01",
+    "23": "2025-06-01",
+    "25": "2026-06-01",
+    // Even versions (LTS EOL dates)
+    "12": "2022-04-30",
+    "14": "2023-04-30",
+    "16": "2023-09-11",
     "18": "2025-04-30",
     "20": "2026-04-30",
     "22": "2027-04-30",
@@ -21,11 +31,23 @@ export const EOL_DATES: Record<string, string> = {
 
 /**
  * Check if a major version is EOL.
+ * Any version below 12 is automatically considered EOL.
  */
 const checkEOL = (major: string): boolean => {
+    // Hard check for very old versions
+    if (Number(major) < 12) {
+        return true;
+    }
+
     const eolDate = EOL_DATES[major];
-    if (!eolDate) return false;
-    return new Date() > new Date(eolDate);
+    // If we have a date, check against it
+    if (eolDate) {
+        return new Date() > new Date(eolDate);
+    }
+
+    // If no date found and it's not < 12, we default to false
+    // (It might be a very new version like 26, or a weird version)
+    return false;
 };
 
 /**
