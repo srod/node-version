@@ -63,4 +63,26 @@ describe("security fixes", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
+
+    test("should reject extremely long version strings (DoS prevention)", () => {
+        const v = getVersion();
+        const hugeVersion = `${"1.".repeat(200)}1`; // > 256 chars
+        expect(hugeVersion.length).toBeGreaterThan(256);
+        expect(v.isAtLeast(hugeVersion)).toBe(false);
+        expect(v.isAbove(hugeVersion)).toBe(false);
+        expect(v.isBelow(hugeVersion)).toBe(false);
+        expect(v.isAtMost(hugeVersion)).toBe(false);
+    });
+
+    test("should accept valid long version strings within limit", () => {
+        const v = getVersion();
+        // 50 segments of "1" is 100 chars approx
+        const longVersion = Array(50).fill("1").join(".");
+        expect(longVersion.length).toBeLessThan(256);
+
+        // Current mock is 20.0.0 (see top of file)
+        // 1.1.1... < 20.0.0
+        expect(v.isAtLeast(longVersion)).toBe(true);
+        expect(v.isBelow(longVersion)).toBe(false);
+    });
 });
