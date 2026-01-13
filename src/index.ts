@@ -52,19 +52,31 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
+        // Fail-closed for DoS protection
+        if (target.length > 256) return NaN;
+
+        // Check for whitespace around without allocating
+        if (
+            target.length === 0 ||
+            target.charCodeAt(0) <= 32 ||
+            target.charCodeAt(target.length - 1) <= 32
+        ) {
             return NaN;
         }
 
-        const stripped = target.replace(/^v/i, "");
-
-        if (stripped.length === 0) {
-            return NaN;
+        const s2 = target.split(".");
+        // Handle 'v' prefix in the first segment
+        if (s2[0].length > 0) {
+            const firstChar = s2[0].charCodeAt(0);
+            // Check for 'v' (118) or 'V' (86)
+            if (firstChar === 118 || firstChar === 86) {
+                s2[0] = s2[0].slice(1);
+            }
         }
 
-        const s2 = stripped.split(".");
-
-        for (const segment of s2) {
+        // Validate segments are numeric
+        for (let i = 0; i < s2.length; i++) {
+            const segment = s2[i];
             if (segment === "" || !/^\d+$/.test(segment)) {
                 return NaN;
             }
