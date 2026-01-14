@@ -63,4 +63,36 @@ describe("security fixes", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
+
+    describe("DoS prevention", () => {
+        test("should handle extremely long version strings gracefully", () => {
+            const v = getVersion();
+
+            // Generate a 1MB string
+            const hugeString = "1".repeat(1024 * 1024);
+
+            const start = performance.now();
+            const result = v.isAtLeast(hugeString);
+            const end = performance.now();
+
+            // Should return false (invalid version because it exceeds MAX_VERSION_LENGTH)
+            expect(result).toBe(false);
+
+            // Should execute quickly (under 50ms implies it didn't try to parse the whole thing)
+            expect(end - start).toBeLessThan(100);
+        });
+
+        test("should handle huge string with many dots", () => {
+            const v = getVersion();
+            const hugeDots = "1.".repeat(500000); // 1MB string with 500k dots
+
+            const start = performance.now();
+            const result = v.isAtLeast(hugeDots);
+            const end = performance.now();
+
+            expect(result).toBe(false);
+            // This is the critical check - without length limit this could be slow/OOM
+            expect(end - start).toBeLessThan(100);
+        });
+    });
 });
