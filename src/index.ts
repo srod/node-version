@@ -10,6 +10,11 @@ import type { NodeVersion } from "./types.js";
 export type { NodeVersion };
 
 /**
+ * Maximum length for a version string to prevent ReDoS/DoS attacks.
+ */
+const MAX_VERSION_LENGTH = 256;
+
+/**
  * End-of-Life dates for Node.js major versions.
  */
 export const EOL_DATES: Record<string, string> = {
@@ -52,6 +57,10 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
+        if (target.length > MAX_VERSION_LENGTH) {
+            return NaN;
+        }
+
         if (target !== target.trim() || target.length === 0) {
             return NaN;
         }
