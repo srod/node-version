@@ -63,4 +63,17 @@ describe("security fixes", () => {
         const v = getVersion();
         expect(v.isAtLeast("10.0.0")).toBe(true);
     });
+
+    test("should reject excessively long strings (DoS prevention)", () => {
+        const v = getVersion();
+        // A string that would cause significant processing if not checked
+        // 10,000 segments of "1" -> "1.1.1.1..."
+        const longString = Array(10000).fill("1").join(".");
+        const start = performance.now();
+        expect(v.isAtLeast(longString)).toBe(false);
+        const end = performance.now();
+        // We ensure it fails fast.
+        // Note: In a real environment, we'd compare against a baseline, but here we just check it returns
+        expect(end - start).toBeLessThan(100);
+    });
 });

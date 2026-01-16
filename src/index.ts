@@ -52,6 +52,11 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
+        // Security: Prevent DoS by limiting version string length
+        if (target.length > 256) {
+            return NaN;
+        }
+
         if (target !== target.trim() || target.length === 0) {
             return NaN;
         }
