@@ -34,40 +34,42 @@ export interface NodeVersion {
     build: string;
     /**
      * Check if the current Node version is at least the specified version.
-     * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version >= target version.
+     * @param version The version to compare against (e.g., '20.0.0' or 'v20.0.0').
+     * @returns {boolean} True if current version >= target version. Returns false for invalid version strings.
      * @example
      * version.isAtLeast('18.0.0'); // true if current is 20.0.0
      */
     isAtLeast(version: string): boolean;
     /**
-     * Check if the current Node version matches the specified version.
+     * Check if the current Node version exactly matches the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
      * @returns {boolean} True if current version === target version.
+     * @note This performs a strict equality check and does NOT strip 'v' prefixes.
      * @example
      * version.is('20.0.0'); // true if current is 20.0.0
+     * version.is('v20.0.0'); // false if current is 20.0.0
      */
     is(version: string): boolean;
     /**
      * Check if the current Node version is strictly greater than the specified version.
-     * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version > target version.
+     * @param version The version to compare against (e.g., '20.0.0' or 'v20.0.0').
+     * @returns {boolean} True if current version > target version. Returns false for invalid version strings.
      * @example
      * version.isAbove('18.0.0'); // true if current is 20.0.0
      */
     isAbove(version: string): boolean;
     /**
      * Check if the current Node version is strictly less than the specified version.
-     * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version < target version.
+     * @param version The version to compare against (e.g., '20.0.0' or 'v20.0.0').
+     * @returns {boolean} True if current version < target version. Returns false for invalid version strings.
      * @example
      * version.isBelow('22.0.0'); // true if current is 20.0.0
      */
     isBelow(version: string): boolean;
     /**
      * Check if the current Node version is at most the specified version.
-     * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version <= target version.
+     * @param version The version to compare against (e.g., '20.0.0' or 'v20.0.0').
+     * @returns {boolean} True if current version <= target version. Returns false for invalid version strings.
      * @example
      * version.isAtMost('22.0.0'); // true if current is 20.0.0
      */
