@@ -5,9 +5,9 @@
  */
 
 import { release, versions } from "node:process";
-import type { NodeVersion } from "./types.js";
+import type { NodeVersion, NodeVersionJSON } from "./types.js";
 
-export type { NodeVersion };
+export type { NodeVersion, NodeVersionJSON };
 
 /**
  * End-of-Life dates for Node.js major versions.
@@ -47,6 +47,24 @@ export const getVersion = (): NodeVersion => {
     const nodeVersionParts = split.map((s) => Number(s) || 0);
     const major = split[0] || "0";
     const eolString = EOL_DATES[major];
+    const eolDate = eolString ? new Date(eolString) : undefined;
+    const daysUntilEOL = eolDate
+        ? Math.ceil((eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        : undefined;
+
+    const dataProps = {
+        original: `v${nodeVersion}`,
+        short: `${split[0] || "0"}.${split[1] || "0"}`,
+        long: nodeVersion,
+        major,
+        minor: split[1] || "0",
+        build: split[2] || "0",
+        isLTS: !!release.lts,
+        ltsName: String(release.lts || "") || undefined,
+        isEOL: checkEOL(major),
+        eolDate,
+        daysUntilEOL,
+    };
 
     /**
      * Compare the current node version with a target version string.
@@ -83,12 +101,7 @@ export const getVersion = (): NodeVersion => {
     };
 
     return {
-        original: `v${nodeVersion}`,
-        short: `${split[0] || "0"}.${split[1] || "0"}`,
-        long: nodeVersion,
-        major: major,
-        minor: split[1] || "0",
-        build: split[2] || "0",
+        ...dataProps,
         isAtLeast: (version: string): boolean => {
             return compareTo(version) >= 0;
         },
@@ -104,11 +117,8 @@ export const getVersion = (): NodeVersion => {
         isAtMost: (version: string): boolean => {
             return compareTo(version) <= 0;
         },
-        isLTS: !!release.lts,
-        ltsName: String(release.lts || "") || undefined,
-        isEOL: checkEOL(major),
-        eolDate: eolString ? new Date(eolString) : undefined,
         toString: () => `v${nodeVersion}`,
+        toJSON: () => dataProps,
     };
 };
 

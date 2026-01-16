@@ -94,7 +94,30 @@ export interface NodeVersion {
      */
     eolDate: Date | undefined;
     /**
+     * Days until EOL. Positive if in the future, negative if past.
+     * Undefined if the EOL date is not known.
+     */
+    daysUntilEOL: number | undefined;
+    /**
      * Returns the original version string.
      */
     toString(): string;
+    /**
+     * Returns a JSON-serializable representation (data properties only, no methods).
+     */
+    toJSON(): NodeVersionJSON;
 }
+
+/**
+ * JSON-serializable version of NodeVersion (data properties only).
+ */
+export type NodeVersionJSON = Omit<
+    NodeVersion,
+    | "isAtLeast"
+    | "is"
+    | "isAbove"
+    | "isBelow"
+    | "isAtMost"
+    | "toString"
+    | "toJSON"
+>;
