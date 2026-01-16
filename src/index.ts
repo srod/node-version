@@ -49,7 +49,7 @@ export const getVersion = (): NodeVersion => {
     const eolString = EOL_DATES[major];
     const eolDate = eolString ? new Date(eolString) : undefined;
     const daysUntilEOL = eolDate
-        ? Math.ceil((eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        ? Math.floor((eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
         : undefined;
 
     const dataProps = {
