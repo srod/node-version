@@ -4,8 +4,8 @@
  * MIT Licensed
  */
 
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { versions as realVersions } from "node:process";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { EOL_DATES, getVersion, version } from "./index.js";
 
 const { mockVersion, mockRelease } = vi.hoisted(() => ({
@@ -104,9 +104,9 @@ describe("node-version", () => {
         expect(typeof v.build).toBe("string");
     });
 
-    test("object should have exactly 16 properties", () => {
-        expect(Object.keys(version)).toHaveLength(16);
-        expect(Object.keys(getVersion())).toHaveLength(16);
+    test("object should have exactly 18 properties", () => {
+        expect(Object.keys(version)).toHaveLength(18);
+        expect(Object.keys(getVersion())).toHaveLength(18);
     });
 
     test("original property should start with v", () => {
@@ -328,6 +328,58 @@ describe("node-version", () => {
             mockVersion.node = "99.0.0";
             const v = getVersion();
             expect(v.eolDate).toBeUndefined();
+        });
+
+        test("daysUntilEOL should be positive before EOL", () => {
+            vi.setSystemTime(new Date("2024-01-01"));
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            expect(v.daysUntilEOL).toBeGreaterThan(0);
+        });
+
+        test("daysUntilEOL should be positive even with less than 1 day remaining", () => {
+            // EOL for v20 is 2026-04-30T00:00:00Z, set time to 12 hours before
+            vi.setSystemTime(new Date("2026-04-29T12:00:00Z"));
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            // Less than 1 day remaining should still be > 0 (any partial day counts)
+            expect(v.daysUntilEOL).toBeGreaterThan(0);
+        });
+
+        test("daysUntilEOL should be negative after EOL", () => {
+            vi.setSystemTime(new Date("2027-01-01"));
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            expect(v.daysUntilEOL).toBeLessThan(0);
+        });
+
+        test("daysUntilEOL should be undefined for unknown version", () => {
+            mockVersion.node = "99.0.0";
+            const v = getVersion();
+            expect(v.daysUntilEOL).toBeUndefined();
+        });
+    });
+
+    describe("toJSON", () => {
+        test("toJSON returns data properties only", () => {
+            const v = getVersion();
+            const json = v.toJSON();
+
+            expect(json).toHaveProperty("original");
+            expect(json).toHaveProperty("major");
+            expect(json).toHaveProperty("daysUntilEOL");
+            expect(json).not.toHaveProperty("isAtLeast");
+            expect(json).not.toHaveProperty("toJSON");
+        });
+
+        test("JSON.stringify works correctly", () => {
+            const v = getVersion();
+            const str = JSON.stringify(v);
+            const parsed = JSON.parse(str);
+
+            expect(parsed.original).toBe(v.original);
+            expect(parsed.major).toBe(v.major);
+            expect(parsed.isAtLeast).toBeUndefined();
         });
     });
 });
