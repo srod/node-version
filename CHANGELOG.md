@@ -1,5 +1,11 @@
 # node-version
 
+## 4.3.0
+
+### Minor Changes
+
+- 5c30879: Add `daysUntilEOL` property and `toJSON()` method to NodeVersion
+
 ## 4.2.0
 
 ### Minor Changes
