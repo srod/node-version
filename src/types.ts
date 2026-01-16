@@ -35,25 +35,23 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at least the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version >= target version. Returns false for invalid version strings.
+     * @returns {boolean} True if current version >= target version.
      * @example
      * version.isAtLeast('18.0.0'); // true if current is 20.0.0
      */
     isAtLeast(version: string): boolean;
     /**
      * Check if the current Node version matches the specified version.
-     * Note: This performs a strict equality check and does NOT normalize 'v' prefixes.
      * @param version The version to compare against (e.g., '20.0.0').
      * @returns {boolean} True if current version === target version.
      * @example
      * version.is('20.0.0'); // true if current is 20.0.0
-     * version.is('v20.0.0'); // false if current is 20.0.0
      */
     is(version: string): boolean;
     /**
      * Check if the current Node version is strictly greater than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version > target version. Returns false for invalid version strings.
+     * @returns {boolean} True if current version > target version.
      * @example
      * version.isAbove('18.0.0'); // true if current is 20.0.0
      */
@@ -61,7 +59,7 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is strictly less than the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version < target version. Returns false for invalid version strings.
+     * @returns {boolean} True if current version < target version.
      * @example
      * version.isBelow('22.0.0'); // true if current is 20.0.0
      */
@@ -69,7 +67,7 @@ export interface NodeVersion {
     /**
      * Check if the current Node version is at most the specified version.
      * @param version The version to compare against (e.g., '20.0.0').
-     * @returns {boolean} True if current version <= target version. Returns false for invalid version strings.
+     * @returns {boolean} True if current version <= target version.
      * @example
      * version.isAtMost('22.0.0'); // true if current is 20.0.0
      */
