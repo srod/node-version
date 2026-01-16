@@ -52,34 +52,81 @@ export const getVersion = (): NodeVersion => {
      * Compare the current node version with a target version string.
      */
     const compareTo = (target: string): number => {
-        if (target !== target.trim() || target.length === 0) {
+        const len = target.length;
+        if (len === 0) return NaN;
+
+        // Check for whitespace (equivalent to target !== target.trim())
+        // ASCII space is 32. We check if start or end characters are whitespace.
+        const first = target.charCodeAt(0);
+        const last = target.charCodeAt(len - 1);
+        if (first <= 32 || last <= 32) {
             return NaN;
         }
 
-        const stripped = target.replace(/^v/i, "");
-
-        if (stripped.length === 0) {
-            return NaN;
+        let start = 0;
+        // Handle 'v' or 'V' prefix
+        if (first === 118 || first === 86) {
+            start = 1;
+            if (len === 1) return NaN;
         }
 
-        const s2 = stripped.split(".");
+        let p1 = 0; // index in nodeVersionParts
+        let current = 0;
+        let hasDigit = false;
 
-        for (const segment of s2) {
-            if (segment === "" || !/^\d+$/.test(segment)) {
-                return NaN;
+        let result = 0;
+        let determined = false;
+
+        for (let i = start; i < len; i++) {
+            const code = target.charCodeAt(i);
+
+            if (code >= 48 && code <= 57) {
+                // 0-9
+                if (!determined) {
+                    current = current * 10 + (code - 48);
+                }
+                hasDigit = true;
+            } else if (code === 46) {
+                // .
+                if (!hasDigit) return NaN; // Empty segment or starting with dot
+
+                if (!determined) {
+                    // Compare with node version part
+                    const n1 = nodeVersionParts[p1] || 0;
+                    if (n1 > current) {
+                        result = 1;
+                        determined = true;
+                    } else if (n1 < current) {
+                        result = -1;
+                        determined = true;
+                    }
+                }
+
+                current = 0;
+                hasDigit = false;
+                p1++;
+            } else {
+                return NaN; // Invalid character
             }
         }
 
-        const len = Math.max(nodeVersionParts.length, s2.length);
+        if (!hasDigit) return NaN; // Trailing dot or empty last segment
 
-        for (let i = 0; i < len; i++) {
-            const n1 = nodeVersionParts[i] || 0;
-            const n2 = Number(s2[i]) || 0;
-            if (n1 > n2) return 1;
-            if (n1 < n2) return -1;
+        if (!determined) {
+            // Compare last segment
+            const n1 = nodeVersionParts[p1] || 0;
+            if (n1 > current) return 1;
+            if (n1 < current) return -1;
+            p1++;
+
+            // Check remaining node parts
+            for (; p1 < nodeVersionParts.length; p1++) {
+                if (nodeVersionParts[p1] > 0) return 1;
+            }
+            return 0;
         }
 
-        return 0;
+        return result;
     };
 
     return {
