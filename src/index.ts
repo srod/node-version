@@ -48,9 +48,15 @@ export const getVersion = (): NodeVersion => {
     const major = split[0] || "0";
     const eolString = EOL_DATES[major];
     const eolDate = eolString ? new Date(eolString) : undefined;
-    const daysUntilEOL = eolDate
-        ? Math.floor((eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+    const rawDays = eolDate
+        ? (eolDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
         : undefined;
+    const daysUntilEOL =
+        rawDays === undefined
+            ? undefined
+            : rawDays > 0
+              ? Math.ceil(rawDays)
+              : Math.floor(rawDays);
 
     const dataProps = {
         original: `v${nodeVersion}`,

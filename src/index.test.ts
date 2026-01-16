@@ -337,6 +337,15 @@ describe("node-version", () => {
             expect(v.daysUntilEOL).toBeGreaterThan(0);
         });
 
+        test("daysUntilEOL should be positive even with less than 1 day remaining", () => {
+            // EOL for v20 is 2026-04-30T00:00:00Z, set time to 12 hours before
+            vi.setSystemTime(new Date("2026-04-29T12:00:00Z"));
+            mockVersion.node = "20.10.0";
+            const v = getVersion();
+            // Less than 1 day remaining should still be > 0 (any partial day counts)
+            expect(v.daysUntilEOL).toBeGreaterThan(0);
+        });
+
         test("daysUntilEOL should be negative after EOL", () => {
             vi.setSystemTime(new Date("2027-01-01"));
             mockVersion.node = "20.10.0";
