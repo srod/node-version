@@ -67,9 +67,9 @@
         "@changesets/cli": "2.30.0",
         "@total-typescript/tsconfig": "1.0.4",
         "@types/node": "24.10.4",
-        "@vitest/coverage-v8": "4.0.18",
+        "@vitest/coverage-v8": "4.1.0",
         "tsdown": "0.21.2",
         "typescript": "5.9.3",
-        "vitest": "4.0.18"
+        "vitest": "4.1.0"
     }
 }
