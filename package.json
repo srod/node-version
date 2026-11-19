@@ -21,7 +21,7 @@
         "node": ">=20.0.0"
     },
     "sideEffects": false,
-    "packageManager": "bun@1.4.4",
+    "packageManager": "bun@1.4.5",
     "directories": {
         "lib": "dist"
     },
